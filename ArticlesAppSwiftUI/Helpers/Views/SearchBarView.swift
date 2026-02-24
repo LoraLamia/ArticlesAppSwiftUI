@@ -16,8 +16,6 @@ struct SearchBar: View {
             HStack(spacing: 8) {
                 TextField("Search articles", text: $text)
                     .focused($isFocused)
-                    .textFieldStyle(.plain)
-                    .submitLabel(.search)
                 
                 if !text.isEmpty {
                     Button {

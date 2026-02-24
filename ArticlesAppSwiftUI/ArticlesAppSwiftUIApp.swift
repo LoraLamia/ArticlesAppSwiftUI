@@ -11,7 +11,7 @@ import SwiftUI
 struct ArticlesAppSwiftUIApp: App {
     var body: some Scene {
         WindowGroup {
-            AllArticlesView()
+            MainView()
         }
     }
 }

@@ -11,7 +11,7 @@ import Alamofire
 class ArticleService {
     // Token hardcoded in code, big no!
     private let headers: HTTPHeaders = [
-        "Authorization" : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWM1MjRjNzEzMjM1MzFhNDM5YzcyYSIsInVzZXJuYW1lIjoiZmlmaSIsInJvbGUiOiJCYXNpYyIsImlhdCI6MTc3MTkyNDk5NywiZXhwIjoxNzcxOTM1Nzk3fQ.Ywnjo4XjNtCG0GPZqTZec3h3ZqBk79g_uqE0Q1g-6R0"
+        "Authorization" : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWM1MjRjNzEzMjM1MzFhNDM5YzcyYSIsInVzZXJuYW1lIjoiZmlmaSIsInJvbGUiOiJCYXNpYyIsImlhdCI6MTc3MTkzNjY0MiwiZXhwIjoxNzcxOTQ3NDQyfQ.MWdfu1mBKtYijS5bOx7QTOpmUcHy18GtqsvFkWQTf6M"
     ]
     
     func fetchArticles(page: Int, completion: @escaping (Result<[Article], AFError>) -> Void) {
