@@ -8,20 +8,23 @@
 import Combine
 
 class FavoritesViewModel: ObservableObject {
-    @Published var articles: [ArticleAPI] = []
+    private let articleUseCase: ArticleUseCaseFavorites
+    
+    @Published var articles: [Article] = []
     
     private let service = ArticleService()
     
+    init(articleUseCase: ArticleUseCaseFavorites) {
+        self.articleUseCase = articleUseCase
+    }
+    
     func loadArticles() {
-        service.fetchArticles(page: 1) { [weak self] result in
-            guard let self else { return }
-            switch result {
-            case .success(let articles):
-                self.articles = articles
-            default:
-                break
-            }
-        }
+        articles = articleUseCase.getFavorites()
+    }
+    
+    func toggleFavorite(article: Article) {
+        articleUseCase.toggleFavorite(article: article)
+        loadArticles()
     }
 }
 

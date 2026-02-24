@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct ArticlesAppSwiftUIApp: App {
+    private let container = AppContainer()
+
     var body: some Scene {
         WindowGroup {
-            MainView()
+            MainView(container: container)
         }
     }
 }

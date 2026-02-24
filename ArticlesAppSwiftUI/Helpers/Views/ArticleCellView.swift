@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct ArticleCellView: View {
-    let article: ArticleAPI
+    let article: Article
+    let isFavorite: Bool
+    let onFavoriteTap: () -> Void
+    
     var body: some View {
         HStack(spacing: Constants.Spacing.normal) {
             VStack(spacing: Constants.Spacing.extraSmall) {
@@ -46,11 +49,15 @@ struct ArticleCellView: View {
                     Spacer()
                 }
             }
-            Image(systemName: Constants.Icons.favoriteIconName)
-                .resizable()
-                .scaledToFit()
-                .frame(height: Constants.Height.normal)
-                .foregroundStyle(Constants.Colors.favoriteIconColor)
+            Button {
+                onFavoriteTap()
+            } label: {
+                Image(systemName: isFavorite ? Constants.Icons.favoriteIconName : Constants.Icons.unfavoriteIconName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: Constants.Height.normal)
+                    .foregroundStyle(Constants.Colors.favoriteIconColor)
+            }
         }
         .padding()
         .background(Constants.Colors.cellBackgroundColor)

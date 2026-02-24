@@ -9,11 +9,15 @@ import SwiftUI
 
 enum Constants {
     enum API {
-        static let baseURL = "http://localhost:3000"
+        static let baseURL = "https://interview-assignment-be-rn3c.onrender.com"
         static let articlesEndpoint = "/api/articles"
         static let topicsEndpoint = "/api/articles/topics"
         
-        static let token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWRhOTNkMzIxZWZmNTJmNzk2NGI3MSIsInVzZXJuYW1lIjoiZmlmaSIsInJvbGUiOiJCYXNpYyIsImlhdCI6MTc3MTk0MDE1NywiZXhwIjoxNzcxOTUwOTU3fQ.eThqz-MMxjQxueagmXXQxmgTAB1EentzRumjngitaXU"
+        static let token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWRlYzAwZWY3ZGVlNDhkM2RhNjkzOCIsInVzZXJuYW1lIjoiYmFsYmxhIiwicm9sZSI6IkJhc2ljIiwiaWF0IjoxNzcxOTU3MjQ4LCJleHAiOjE3NzE5NjgwNDh9.0w_mzzayHvm2qItNDu2VFmK5GXSBUzO8JnLj62uzfgg"
+    }
+    
+    enum Keys {
+        static let favoritesKey = "favorite_articles"
     }
     
     enum Strings {

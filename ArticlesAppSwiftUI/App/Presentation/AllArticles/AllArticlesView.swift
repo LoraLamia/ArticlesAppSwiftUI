@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AllArticlesView: View {
     
-    @StateObject private var viewModel = ArticlesViewModel()
+    @StateObject var viewModel: AllArticlesViewModel
 
     var body: some View {
         VStack {
@@ -27,7 +27,13 @@ struct AllArticlesView: View {
         ScrollView {
             LazyVStack(spacing: 0) {
                 ForEach(viewModel.filteredArticles) { article in
-                    ArticleCellView(article: article)
+                    ArticleCellView(
+                        article: article,
+                        isFavorite: viewModel.isFavorite(article),
+                        onFavoriteTap: {
+                            viewModel.toggleFavorite(article)
+                        }
+                    )
                 }
             }
         }

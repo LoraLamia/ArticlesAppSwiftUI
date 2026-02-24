@@ -9,14 +9,20 @@ import SwiftUI
 
 struct FavoritesView: View {
     
-    @StateObject private var viewModel = FavoritesViewModel()
+    @StateObject var viewModel: FavoritesViewModel
 
     var body: some View {
         VStack {
             ScrollView {
                 LazyVStack(spacing: 0) {
                     ForEach(viewModel.articles) { article in
-                        ArticleCellView(article: article)
+                        ArticleCellView(
+                            article: article,
+                            isFavorite: true,
+                            onFavoriteTap: {
+                                viewModel.toggleFavorite(article: article)
+                            }
+                        )
                     }
                 }
             }

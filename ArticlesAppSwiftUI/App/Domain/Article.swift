@@ -1,13 +1,13 @@
 //
 //  Article.swift
-//  ArticlesApp
+//  ArticlesAppSwiftUI
 //
-//  Created by Lora Zubic on 05.08.2025..
+//  Created by Lora Zubić on 24.02.2026..
 //
 
 import Foundation
 
-struct ArticleAPI: Codable, Identifiable {
+struct Article: Codable, Identifiable {
     let id: String
     let title: String
     let summary: String
@@ -53,7 +53,7 @@ struct ArticlesResponse: Codable {
 
 struct ArticlesContainer: Codable {
     let metadata: Metadata
-    let data: [ArticleAPI]
+    let data: [Article]
 }
 
 struct Metadata: Codable {
@@ -61,5 +61,4 @@ struct Metadata: Codable {
     let page: Int
     let pageSize: Int
 }
-
 

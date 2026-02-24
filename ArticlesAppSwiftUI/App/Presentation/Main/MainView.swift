@@ -8,14 +8,25 @@
 import SwiftUI
 
 struct MainView: View {
+    let container: AppContainer
+
     var body: some View {
         TabView {
-            AllArticlesView()
+            AllArticlesView(
+                viewModel: AllArticlesViewModel(
+                    articleUseCase: container.articleUseCase
+                )
+            )
                 .tabItem {
                     Label(Constants.Strings.articles, systemImage: Constants.Icons.listName)
                 }
 
-            FavoritesView()
+            FavoritesView(
+                viewModel: FavoritesViewModel(
+                    articleUseCase:
+                        container.articleUseCase
+                )
+            )
                 .tabItem {
                     Label(Constants.Strings.favorites, systemImage: Constants.Icons.favoriteIconName)
                 }

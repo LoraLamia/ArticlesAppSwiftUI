@@ -9,8 +9,11 @@ import Combine
 import Foundation
 
 @MainActor
-class ArticlesViewModel: ObservableObject {
-    @Published var articles: [ArticleAPI] = []
+class AllArticlesViewModel: ObservableObject {
+    private let articleUseCase: ArticleUseCaseAllArticles
+    private var cancellables = Set<AnyCancellable>()
+
+    @Published var articles: [Article] = []
     @Published var topics: [String] = []
     @Published var selectedTopic: String?
     @Published var isLoading = false
@@ -18,12 +21,10 @@ class ArticlesViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var isAscending: Bool = false
     
-    private let service = ArticleService()
-    
-    var filteredArticles: [ArticleAPI] {
+    var filteredArticles: [Article] {
         let topicFiltered = selectedTopic == nil ? articles : articles.filter { $0.topic == selectedTopic }
         
-        let searchFiltered: [ArticleAPI]
+        let searchFiltered: [Article]
         
         if searchText.isEmpty {
             searchFiltered = topicFiltered
@@ -46,6 +47,19 @@ class ArticlesViewModel: ObservableObject {
         }
     }
     
+    init(articleUseCase: ArticleUseCaseAllArticles) {
+        self.articleUseCase = articleUseCase
+    }
+    
+    func isFavorite(_ article: Article) -> Bool {
+        articleUseCase.isFavorite(article: article)
+    }
+    
+    func toggleFavorite(_ article: Article) {
+        articleUseCase.toggleFavorite(article: article)
+        objectWillChange.send() // ručno refresh jer favorites nisu @Published
+    }
+    
     func toggleTopic(_ topic: String) {
         if selectedTopic == topic {
             selectedTopic = nil
@@ -55,31 +69,41 @@ class ArticlesViewModel: ObservableObject {
     }
     
     func loadArticles() {
-        isLoading = true
-        service.fetchArticles(page: 1) { [weak self] result in
-            guard let self else { return }
-            self.isLoading = false
-            switch result {
-            case .success(let articles):
-                self.articles = articles
-            case .failure(let error):
-                self.errorMessage = error.localizedDescription
-            }
+            isLoading = true
+            errorMessage = nil
+            
+            articleUseCase.getArticles(page: 1)
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] completion in
+                    guard let self else { return }
+                    self.isLoading = false
+                    
+                    if case .failure(let error) = completion {
+                        self.errorMessage = error.localizedDescription
+                    }
+                } receiveValue: { [weak self] articles in
+                    self?.articles = articles
+                }
+                .store(in: &cancellables)
         }
-    }
-    
-    func loadTopics() {
-        isLoading = true
-        service.fetchTopics { [weak self] result in
-            guard let self else { return }
-            self.isLoading = false
-            switch result {
-            case .success(let topics):
-                self.topics = topics
-            case .failure(let error):
-                self.errorMessage = error.localizedDescription
-            }
+        
+        func loadTopics() {
+            isLoading = true
+            errorMessage = nil
+            
+            articleUseCase.getTopics()
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] completion in
+                    guard let self else { return }
+                    self.isLoading = false
+                    
+                    if case .failure(let error) = completion {
+                        self.errorMessage = error.localizedDescription
+                    }
+                } receiveValue: { [weak self] topics in
+                    self?.topics = topics
+                }
+                .store(in: &cancellables)
         }
-    }
 }
 
