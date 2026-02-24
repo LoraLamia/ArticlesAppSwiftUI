@@ -13,8 +13,19 @@ struct AllArticlesView: View {
 
     var body: some View {
         VStack {
-            SearchBar(text: $viewModel.searchText)
-                .padding()
+            HStack {
+                SearchBar(text: $viewModel.searchText)
+                Button {
+                    viewModel.isAscending.toggle()
+                } label: {
+                    Image(systemName: viewModel.isAscending ? "arrow.up" : "arrow.down")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 15)
+                        .foregroundStyle(.blue)
+                }
+            }
+            .padding()
             
             ScrollView {
                 LazyVStack(spacing: 0) {

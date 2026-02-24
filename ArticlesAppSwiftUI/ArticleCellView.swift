@@ -65,7 +65,7 @@ struct ArticleCellView: View {
                     Spacer()
                 }
             }
-            Image.init(systemName: "star.fill")
+            Image(systemName: "star.fill")
                 .resizable()
                 .scaledToFit()
                 .frame(height: 25)

@@ -14,14 +14,17 @@ class ArticlesViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var searchText: String = ""
+    @Published var isAscending: Bool = false
     
     private let service = ArticleService()
     
     var filteredArticles: [Article] {
+        let filtered: [Article]
+        
         if searchText.isEmpty {
-            return articles
+            filtered = articles
         } else {
-            return articles.filter {
+            filtered = articles.filter {
                 $0.title.localizedCaseInsensitiveContains(searchText) ||
                 $0.author.localizedCaseInsensitiveContains(searchText) ||
                 $0.summary.localizedCaseInsensitiveContains(searchText) ||
@@ -30,6 +33,12 @@ class ArticlesViewModel: ObservableObject {
                     $0.localizedCaseInsensitiveContains(searchText)
                 }
             }
+        }
+        
+        return filtered.sorted {
+            isAscending
+            ? $0.publishedAt < $1.publishedAt
+            : $0.publishedAt > $1.publishedAt
         }
     }
     
