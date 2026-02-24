@@ -8,26 +8,20 @@
 import SwiftUI
 
 struct ArticleCellView: View {
-    let article: Article
+    let article: ArticleAPI
     var body: some View {
-        HStack(spacing: 16) {
-            VStack(spacing: 6) {
+        HStack(spacing: Constants.Spacing.normal) {
+            VStack(spacing: Constants.Spacing.extraSmall) {
                 HStack {
                     Text(article.title)
-                        .font(.system(size: 20, weight: .bold))
+                        .font(.system(size: Constants.Fonts.large, weight: .bold))
                     Spacer()
                 }
                 HStack {
                     Text(article.author)
-                        .font(.system(size: 18))
-                        .foregroundStyle(
-                            Color(
-                                red: 60/255,
-                                green: 60/255,
-                                blue: 67/255,
-                                opacity: 0.6
-                            )
-                        )
+                        .font(.system(size: Constants.Fonts.normal))
+                        .foregroundStyle(Constants.Colors.authorAndDateTextColor)
+
                     Spacer()
                     Text(article.publishedAt, format: .dateTime
                         .month(.abbreviated)
@@ -36,49 +30,30 @@ struct ArticleCellView: View {
                         .hour()
                         .minute()
                     )
-                    .font(.system(size: 16))
-                    .foregroundStyle(
-                        Color(
-                            red: 60/255,
-                            green: 60/255,
-                            blue: 67/255,
-                            opacity: 0.6
-                        )
-                    )
+                    .font(.system(size: Constants.Fonts.small))
+                    .foregroundStyle(Constants.Colors.authorAndDateTextColor)
                 }
                 HStack {
                     Text(article.summary)
-                        .font(.system(size: 14))
-                        .foregroundStyle(
-                            Color(
-                                red: 85/255,
-                                green: 85/255,
-                                blue: 85/255
-                            )
-                        )
+                        .font(.system(size: Constants.Fonts.extraSmall))
+                        .foregroundStyle(Constants.Colors.summaryTextColor)
                     Spacer()
                 }
                 HStack {
                     Text("Topic: \(article.topic) Tags: \(article.tags.joined(separator: ", "))")
-                        .font(.system(size: 16))
-                        .foregroundStyle(.blue)
+                        .font(.system(size: Constants.Fonts.small))
+                        .foregroundStyle(Constants.Colors.topicAndTagsTextColor)
                     Spacer()
                 }
             }
-            Image(systemName: "star.fill")
+            Image(systemName: Constants.Icons.favoriteIconName)
                 .resizable()
                 .scaledToFit()
-                .frame(height: 25)
-                .foregroundStyle(.blue)
+                .frame(height: Constants.Height.normal)
+                .foregroundStyle(Constants.Colors.favoriteIconColor)
         }
         .padding()
-        .background(
-            Color(
-                red: 230/255,
-                green: 229/255,
-                blue: 227/255
-            )
-        )
+        .background(Constants.Colors.cellBackgroundColor)
         .shadow(radius: 6)
     }
 }

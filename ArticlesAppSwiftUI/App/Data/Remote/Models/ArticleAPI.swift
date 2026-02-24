@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Article: Codable, Identifiable {
+struct ArticleAPI: Codable, Identifiable {
     let id: String
     let title: String
     let summary: String
@@ -53,7 +53,7 @@ struct ArticlesResponse: Codable {
 
 struct ArticlesContainer: Codable {
     let metadata: Metadata
-    let data: [Article]
+    let data: [ArticleAPI]
 }
 
 struct Metadata: Codable {

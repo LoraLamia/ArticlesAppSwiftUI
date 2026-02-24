@@ -12,12 +12,12 @@ struct MainView: View {
         TabView {
             AllArticlesView()
                 .tabItem {
-                    Label("Articles", systemImage: "text.document")
+                    Label(Constants.Strings.articles, systemImage: Constants.Icons.listName)
                 }
 
             FavoritesView()
                 .tabItem {
-                    Label("Favorites", systemImage: "star")
+                    Label(Constants.Strings.favorites, systemImage: Constants.Icons.favoriteIconName)
                 }
         }
     }

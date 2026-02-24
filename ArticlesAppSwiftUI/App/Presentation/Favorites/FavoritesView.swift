@@ -13,7 +13,6 @@ struct FavoritesView: View {
 
     var body: some View {
         VStack {
-            
             ScrollView {
                 LazyVStack(spacing: 0) {
                     ForEach(viewModel.articles) { article in

@@ -10,7 +10,9 @@ import Foundation
 
 @MainActor
 class ArticlesViewModel: ObservableObject {
-    @Published var articles: [Article] = []
+    @Published var articles: [ArticleAPI] = []
+    @Published var topics: [String] = []
+    @Published var selectedTopic: String?
     @Published var isLoading = false
     @Published var errorMessage: String?
     @Published var searchText: String = ""
@@ -18,13 +20,15 @@ class ArticlesViewModel: ObservableObject {
     
     private let service = ArticleService()
     
-    var filteredArticles: [Article] {
-        let filtered: [Article]
+    var filteredArticles: [ArticleAPI] {
+        let topicFiltered = selectedTopic == nil ? articles : articles.filter { $0.topic == selectedTopic }
+        
+        let searchFiltered: [ArticleAPI]
         
         if searchText.isEmpty {
-            filtered = articles
+            searchFiltered = topicFiltered
         } else {
-            filtered = articles.filter {
+            searchFiltered = topicFiltered.filter {
                 $0.title.localizedCaseInsensitiveContains(searchText) ||
                 $0.author.localizedCaseInsensitiveContains(searchText) ||
                 $0.summary.localizedCaseInsensitiveContains(searchText) ||
@@ -35,10 +39,18 @@ class ArticlesViewModel: ObservableObject {
             }
         }
         
-        return filtered.sorted {
+        return searchFiltered.sorted {
             isAscending
             ? $0.publishedAt < $1.publishedAt
             : $0.publishedAt > $1.publishedAt
+        }
+    }
+    
+    func toggleTopic(_ topic: String) {
+        if selectedTopic == topic {
+            selectedTopic = nil
+        } else {
+            selectedTopic = topic
         }
     }
     
@@ -50,6 +62,20 @@ class ArticlesViewModel: ObservableObject {
             switch result {
             case .success(let articles):
                 self.articles = articles
+            case .failure(let error):
+                self.errorMessage = error.localizedDescription
+            }
+        }
+    }
+    
+    func loadTopics() {
+        isLoading = true
+        service.fetchTopics { [weak self] result in
+            guard let self else { return }
+            self.isLoading = false
+            switch result {
+            case .success(let topics):
+                self.topics = topics
             case .failure(let error):
                 self.errorMessage = error.localizedDescription
             }

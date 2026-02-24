@@ -8,7 +8,7 @@
 import Combine
 
 class FavoritesViewModel: ObservableObject {
-    @Published var articles: [Article] = []
+    @Published var articles: [ArticleAPI] = []
     
     private let service = ArticleService()
     

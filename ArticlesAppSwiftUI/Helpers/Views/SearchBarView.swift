@@ -13,27 +13,27 @@ struct SearchBar: View {
 
     var body: some View {
         HStack {
-            HStack(spacing: 8) {
-                TextField("Search articles", text: $text)
+            HStack(spacing: Constants.Spacing.small) {
+                TextField(Constants.Strings.searchBarPlaceholder, text: $text)
                     .focused($isFocused)
                 
                 if !text.isEmpty {
                     Button {
                         text = ""
                     } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.gray)
+                        Image(systemName: Constants.Icons.xMarkName)
+                            .foregroundColor(Constants.Colors.xMarkIconColor)
                     }
                 }
             }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
+            .padding(.horizontal, Constants.Padding.small)
+            .padding(.vertical, Constants.Padding.extraSmall)
             .background(Color(uiColor: .systemGray6))
             .overlay(
-                RoundedRectangle(cornerRadius: 12)
+                RoundedRectangle(cornerRadius: Constants.CornerRadius.normal)
                     .stroke(Color.blue, lineWidth: 1)
             )
-            .cornerRadius(12)
+            .cornerRadius(Constants.CornerRadius.normal)
             .animation(.easeInOut(duration: 0.2), value: text)
         }
     }
