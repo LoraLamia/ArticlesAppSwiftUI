@@ -10,8 +10,8 @@ import SwiftUI
 final class DependencyContainer {
     
     // Data sources
-    private let remote = RemoteDataSource()
-    private let local = LocalDataSource()
+    private let remote = ArticleRemoteDataSource()
+    private let local = ArticleLocalDataSource()
     
     // Repository
     lazy var articleRepository = ArticleRepository(remote: remote, local: local)

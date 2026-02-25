@@ -44,8 +44,8 @@ struct AllArticlesView: View {
                     Text(Constants.Strings.allArticles)
                         .padding(.horizontal, Constants.Padding.small)
                         .padding(.vertical, Constants.Padding.extraSmall)
-                        .background(viewModel.selectedTopic == nil ? Constants.Colors.topicCellSelectedColor : Constants.Colors.topicCellUnselectedColor)
-                        .foregroundColor(viewModel.selectedTopic == nil ? Constants.Colors.topicCellTextSelectedColor : Constants.Colors.topicCellTextUnselectedColor)
+                        .background(viewModel.selectedTopic == nil ? Constants.Colors.primaryColor : Constants.Colors.topicCellUnselectedColor)
+                        .foregroundColor(viewModel.selectedTopic == nil ? Constants.Colors.topicCellTextSelectedColor : Constants.Colors.primaryColor)
                         .cornerRadius(Constants.CornerRadius.normal)
                 }
                 
@@ -56,8 +56,8 @@ struct AllArticlesView: View {
                         Text(topic)
                             .padding(.horizontal, Constants.Padding.small)
                             .padding(.vertical, Constants.Padding.extraSmall)
-                            .background(viewModel.selectedTopic == topic ? Constants.Colors.topicCellSelectedColor : Constants.Colors.topicCellUnselectedColor)
-                            .foregroundColor(viewModel.selectedTopic == topic ? Constants.Colors.topicCellTextSelectedColor : Constants.Colors.topicCellTextUnselectedColor)
+                            .background(viewModel.selectedTopic == topic ? Constants.Colors.primaryColor : Constants.Colors.topicCellUnselectedColor)
+                            .foregroundColor(viewModel.selectedTopic == topic ? Constants.Colors.topicCellTextSelectedColor : Constants.Colors.primaryColor)
                             .cornerRadius(Constants.CornerRadius.normal)
                     }
                 }

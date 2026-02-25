@@ -8,11 +8,11 @@
 import Combine
 
 final class ArticleRepository: ArticleRepositoryContract {
-    private let remote: RemoteDataSource
-    private let local: LocalDataSource
+    private let remote: ArticleRemoteDataSource
+    private let local: ArticleLocalDataSource
     
     
-    init(remote: RemoteDataSource, local: LocalDataSource) {
+    init(remote: ArticleRemoteDataSource, local: ArticleLocalDataSource) {
         self.remote = remote
         self.local = local
     }

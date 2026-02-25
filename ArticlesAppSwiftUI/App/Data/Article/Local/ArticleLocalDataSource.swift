@@ -1,5 +1,5 @@
 //
-//  LocalDataSource.swift
+//  ArticleLocalDataSource.swift
 //  ArticlesAppSwiftUI
 //
 //  Created by Lora Zubić on 24.02.2026..
@@ -8,8 +8,8 @@
 import Combine
 import Foundation
 
-final class LocalDataSource {
-    private let favoritesKey = Constants.Keys.favoritesKey
+final class ArticleLocalDataSource {
+    private let favoritesKey = Constants.UserDefaults.favoritesKey
     private let favoritesSubject: CurrentValueSubject<[Article], Never>
     
     init() {

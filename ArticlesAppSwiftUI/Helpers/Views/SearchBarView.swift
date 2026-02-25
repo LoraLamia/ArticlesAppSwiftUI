@@ -30,7 +30,7 @@ struct SearchBar: View {
         .background(Color(uiColor: .systemGray6))
         .overlay(
             RoundedRectangle(cornerRadius: Constants.CornerRadius.normal)
-                .stroke(Color.blue, lineWidth: 1)
+                .stroke(Constants.Colors.primaryColor, lineWidth: 1)
         )
         .cornerRadius(Constants.CornerRadius.normal)
         .animation(.easeInOut(duration: 0.2), value: text)

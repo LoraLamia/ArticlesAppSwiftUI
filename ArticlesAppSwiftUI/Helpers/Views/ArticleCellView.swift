@@ -45,7 +45,7 @@ struct ArticleCellView: View {
                 HStack {
                     Text("Topic: \(article.topic) Tags: \(article.tags.joined(separator: ", "))")
                         .font(.system(size: Constants.Fonts.small))
-                        .foregroundStyle(Constants.Colors.topicAndTagsTextColor)
+                        .foregroundStyle(Constants.Colors.primaryColor)
                     Spacer()
                 }
             }
@@ -56,7 +56,7 @@ struct ArticleCellView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(height: Constants.Height.normal)
-                    .foregroundStyle(Constants.Colors.favoriteIconColor)
+                    .foregroundStyle(Constants.Colors.primaryColor)
             }
         }
         .padding()

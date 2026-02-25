@@ -12,7 +12,8 @@ struct ArticlesAppSwiftUIApp: App {
     var containter = DependencyContainer()
     var body: some Scene {
         WindowGroup {
-            MainView(container: containter)
+//            MainView(container: containter)
+            WelcomeScreenView()
         }
     }
 }

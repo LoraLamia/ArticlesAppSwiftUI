@@ -1,5 +1,5 @@
 //
-//  RemoteDataSource.swift
+//  ArticleRemoteDataSource.swift
 //  ArticlesAppSwiftUI
 //
 //  Created by Lora Zubić on 24.02.2026..
@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 import Combine
 
-final class RemoteDataSource {
+final class ArticleRemoteDataSource {
     private let headers: HTTPHeaders = [
         "Authorization" : Constants.API.token
     ]
