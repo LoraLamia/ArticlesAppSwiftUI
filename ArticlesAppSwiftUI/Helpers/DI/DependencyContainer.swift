@@ -8,15 +8,27 @@
 import SwiftUI
 
 final class DependencyContainer {
+    private let sessionManager: SessionManager
     
-    // Data sources
-    private let remote = ArticleRemoteDataSource()
+    init(sessionManager: SessionManager) {
+        self.sessionManager = sessionManager
+    }
+    
+    // Article
+    private lazy var remote = ArticleRemoteDataSource(
+        onUnauthorized: { [weak sessionManager] in
+            sessionManager?.logout()
+        }
+    )
     private let local = ArticleLocalDataSource()
     
-    // Repository
     lazy var articleRepository = ArticleRepository(remote: remote, local: local)
-    
-    // Use cases
     lazy var articleUseCase = ArticleUseCase(repository: articleRepository)
+    
+    // User
+    private let userRemote = UserRemoteDataSource()
+    
+    lazy var userRepository = UserRepository(remote: userRemote)
+    lazy var userUseCase = UserUseCase(userRepository: userRepository)
 }
 

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RegistrationView: View {
-    @State var viewModel = RegistrationViewModel(userUseCase: UserUseCase(userRepository: UserRepository(remote: UserRemoteDataSource())))
+    @State var viewModel: RegistrationViewModel
     
     var body: some View {
         VStack(spacing: Constants.Spacing.large) {
@@ -60,9 +60,4 @@ struct RegistrationView: View {
             Text(viewModel.errorMessage ?? "")
         }
     }
-}
-
-
-#Preview {
-    RegistrationView()
 }

@@ -9,11 +9,17 @@ import SwiftUI
 
 @main
 struct ArticlesAppSwiftUIApp: App {
-    var containter = DependencyContainer()
+    private let session = SessionManager()
+    private var container: DependencyContainer
+    
+    init() {
+        container = DependencyContainer(sessionManager: session)
+    }
+    
     var body: some Scene {
         WindowGroup {
-//            MainView(container: containter)
-            WelcomeScreenView()
+            RootView(container: container)
+                .environment(session)
         }
     }
 }

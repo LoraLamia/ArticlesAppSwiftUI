@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct WelcomeScreenView: View {
+    @Environment(SessionManager.self) private var session
+    let container: DependencyContainer
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -22,7 +25,9 @@ struct WelcomeScreenView: View {
                     .multilineTextAlignment(.center)
                 Spacer()
                 Text(Constants.Strings.newUser)
-                NavigationLink(destination: RegistrationView()) {
+                NavigationLink(
+                    destination: RegistrationView(
+                        viewModel: RegistrationViewModel(userUseCase: container.userUseCase, session: session))) {
                     Text(Constants.Strings.signUp)
                         .foregroundStyle(Constants.Colors.primaryColor)
                         .underline()
@@ -41,6 +46,6 @@ struct WelcomeScreenView: View {
     }
 }
 
-#Preview {
-    WelcomeScreenView()
-}
+//#Preview {
+//    WelcomeScreenView(container: DependencyContainer())
+//}
