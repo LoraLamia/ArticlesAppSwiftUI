@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct AllArticlesView: View {
-    
-    @StateObject var viewModel: AllArticlesViewModel
+    @State var viewModel: AllArticlesViewModel
 
     var body: some View {
         VStack {

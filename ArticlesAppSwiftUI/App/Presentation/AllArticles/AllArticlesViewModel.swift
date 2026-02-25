@@ -8,18 +8,18 @@
 import Combine
 import Foundation
 
-@MainActor
-class AllArticlesViewModel: ObservableObject {
+@Observable
+class AllArticlesViewModel {
     private let articleUseCase: ArticleUseCaseAllArticles
     private var cancellables = Set<AnyCancellable>()
     
-    @Published var articles: [Article] = []
-    @Published var topics: [String] = []
-    @Published var selectedTopic: String?
-    @Published var isLoading = false
-    @Published var errorMessage: String?
-    @Published var searchText: String = ""
-    @Published var isAscending: Bool = false
+    var articles: [Article] = []
+    var topics: [String] = []
+    var selectedTopic: String?
+    var isLoading = false
+    var errorMessage: String?
+    var searchText: String = ""
+    var isAscending: Bool = false
     
     var filteredArticles: [Article] {
         let topicFiltered = selectedTopic == nil ? articles : articles.filter { $0.topic == selectedTopic }
@@ -57,7 +57,7 @@ class AllArticlesViewModel: ObservableObject {
     
     func toggleFavorite(_ article: Article) {
         articleUseCase.toggleFavorite(article: article)
-        objectWillChange.send() // ručno refresh jer favorites nisu @Published
+//        objectWillChange.send() // ručno refresh jer favorites nisu @Published
     }
     
     func toggleTopic(_ topic: String) {
