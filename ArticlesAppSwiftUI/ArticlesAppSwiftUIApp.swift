@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct ArticlesAppSwiftUIApp: App {
-    private let container = AppContainer()
+    private let container = DependencyContainer()
 
     var body: some Scene {
         WindowGroup {

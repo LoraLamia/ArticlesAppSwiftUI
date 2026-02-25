@@ -12,7 +12,7 @@ import Foundation
 class AllArticlesViewModel: ObservableObject {
     private let articleUseCase: ArticleUseCaseAllArticles
     private var cancellables = Set<AnyCancellable>()
-
+    
     @Published var articles: [Article] = []
     @Published var topics: [String] = []
     @Published var selectedTopic: String?
@@ -69,41 +69,41 @@ class AllArticlesViewModel: ObservableObject {
     }
     
     func loadArticles() {
-            isLoading = true
-            errorMessage = nil
-            
-            articleUseCase.getArticles(page: 1)
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] completion in
-                    guard let self else { return }
-                    self.isLoading = false
-                    
-                    if case .failure(let error) = completion {
-                        self.errorMessage = error.localizedDescription
-                    }
-                } receiveValue: { [weak self] articles in
-                    self?.articles = articles
-                }
-                .store(in: &cancellables)
-        }
+        isLoading = true
+        errorMessage = nil
         
-        func loadTopics() {
-            isLoading = true
-            errorMessage = nil
-            
-            articleUseCase.getTopics()
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] completion in
-                    guard let self else { return }
-                    self.isLoading = false
-                    
-                    if case .failure(let error) = completion {
-                        self.errorMessage = error.localizedDescription
-                    }
-                } receiveValue: { [weak self] topics in
-                    self?.topics = topics
+        articleUseCase.getArticles(page: 1)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self else { return }
+                self.isLoading = false
+                
+                if case .failure(let error) = completion {
+                    self.errorMessage = error.localizedDescription
                 }
-                .store(in: &cancellables)
-        }
+            } receiveValue: { [weak self] articles in
+                self?.articles = articles
+            }
+            .store(in: &cancellables)
+    }
+    
+    func loadTopics() {
+        isLoading = true
+        errorMessage = nil
+        
+        articleUseCase.getTopics()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self else { return }
+                self.isLoading = false
+                
+                if case .failure(let error) = completion {
+                    self.errorMessage = error.localizedDescription
+                }
+            } receiveValue: { [weak self] topics in
+                self?.topics = topics
+            }
+            .store(in: &cancellables)
+    }
 }
 

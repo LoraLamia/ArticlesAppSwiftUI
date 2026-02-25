@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
-    let container: AppContainer
+    let container: DependencyContainer
 
     var body: some View {
         TabView {

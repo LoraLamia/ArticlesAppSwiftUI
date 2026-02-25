@@ -13,9 +13,9 @@ struct AllArticlesView: View {
 
     var body: some View {
         VStack {
-            searchBar()
-            topicsList()
-            articlesList()
+            searchBar
+            topicsList
+            articlesList
         }
         .onAppear {
             viewModel.loadArticles()
@@ -23,7 +23,7 @@ struct AllArticlesView: View {
         }
     }
     
-    @ViewBuilder private func articlesList() -> some View {
+    private var articlesList: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
                 ForEach(viewModel.filteredArticles) { article in
@@ -39,7 +39,7 @@ struct AllArticlesView: View {
         }
     }
     
-    @ViewBuilder private func topicsList() -> some View {
+    private var topicsList: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: Constants.Spacing.small) {
                 
@@ -72,7 +72,7 @@ struct AllArticlesView: View {
         .padding(.bottom, Constants.Padding.small)
     }
     
-    @ViewBuilder private func searchBar() -> some View {
+    private var searchBar: some View {
         HStack {
             SearchBar(text: $viewModel.searchText)
             Button {

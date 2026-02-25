@@ -1,11 +1,11 @@
 //
-//  AppContainer.swift
+//  DependencyContainer.swift
 //  ArticlesAppSwiftUI
 //
 //  Created by Lora Zubić on 24.02.2026..
 //
 
-final class AppContainer {
+final class DependencyContainer {
     
     // Data sources
     private let remote = RemoteDataSource()

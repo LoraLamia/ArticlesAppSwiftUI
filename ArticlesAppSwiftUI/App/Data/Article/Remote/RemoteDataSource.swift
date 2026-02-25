@@ -5,6 +5,7 @@
 //  Created by Lora Zubić on 24.02.2026..
 //
 
+import Foundation
 import Alamofire
 import Combine
 
@@ -20,6 +21,9 @@ final class RemoteDataSource {
             "sort": "-1"
         ]
         
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        
         return AF.request(
             Constants.API.baseURL + Constants.API.articlesEndpoint,
             method: .get,
@@ -27,7 +31,7 @@ final class RemoteDataSource {
             headers: headers
         )
         .validate()
-        .publishDecodable(type: ArticlesResponse.self)
+        .publishDecodable(type: ArticlesResponse.self, decoder: decoder)
         .value()
         .map { $0.articles.data }
         .eraseToAnyPublisher()

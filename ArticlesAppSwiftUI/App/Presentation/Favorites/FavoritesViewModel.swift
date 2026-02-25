@@ -6,13 +6,13 @@
 //
 
 import Combine
+import SwiftUI
 
-class FavoritesViewModel: ObservableObject {
+@Observable
+class FavoritesViewModel {
     private let articleUseCase: ArticleUseCaseFavorites
     
-    @Published var articles: [Article] = []
-    
-    private let service = ArticleService()
+    var articles: [Article] = []
     
     init(articleUseCase: ArticleUseCaseFavorites) {
         self.articleUseCase = articleUseCase
