@@ -5,6 +5,8 @@
 //  Created by Lora Zubić on 24.02.2026..
 //
 
+import SwiftUI
+
 final class DependencyContainer {
     
     // Data sources

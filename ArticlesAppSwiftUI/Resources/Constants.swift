@@ -13,7 +13,7 @@ enum Constants {
         static let articlesEndpoint = "/api/articles"
         static let topicsEndpoint = "/api/articles/topics"
         
-        static let token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWViYjQ5ZTc2MDBiYjcyZDlhY2IwOCIsInVzZXJuYW1lIjoicGVyb3BlcmljIiwicm9sZSI6IkJhc2ljIiwiaWF0IjoxNzcyMDEwMzEzLCJleHAiOjE3NzIwMjExMTN9.aJTZNuVs4ab-PVaJd7X5lPX-wN2NUjTxpym6xyyRmJU"
+        static let token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWVkNTU3YmEyN2NmOTM5ODVhOGRjZSIsInVzZXJuYW1lIjoibWFya29ob3J2YXQiLCJyb2xlIjoiQmFzaWMiLCJpYXQiOjE3NzIwMTY5ODQsImV4cCI6MTc3MjAyNzc4NH0.cgqVq84GYXBE4JGr_YPQ5vImswMSY-C-OOT2-UPfPiE"
     }
     
     enum Keys {

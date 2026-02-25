@@ -9,11 +9,10 @@ import SwiftUI
 
 @main
 struct ArticlesAppSwiftUIApp: App {
-    private let container = DependencyContainer()
-
+    var containter = DependencyContainer()
     var body: some Scene {
         WindowGroup {
-            MainView(container: container)
+            MainView(container: containter)
         }
     }
 }
