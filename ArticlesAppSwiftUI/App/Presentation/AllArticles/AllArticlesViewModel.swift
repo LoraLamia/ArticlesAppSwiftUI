@@ -20,6 +20,7 @@ class AllArticlesViewModel {
     var errorMessage: String?
     var searchText: String = ""
     var isAscending: Bool = false
+    var favoriteIDs: Set<String> = []
     
     var filteredArticles: [Article] {
         let topicFiltered = selectedTopic == nil ? articles : articles.filter { $0.topic == selectedTopic }
@@ -49,15 +50,18 @@ class AllArticlesViewModel {
     
     init(articleUseCase: ArticleUseCaseAllArticles) {
         self.articleUseCase = articleUseCase
+        bind()
     }
     
     func isFavorite(_ article: Article) -> Bool {
-        articleUseCase.isFavorite(article: article)
+        favoriteIDs.contains(article.id)
     }
     
-    func toggleFavorite(_ article: Article) {
-        articleUseCase.toggleFavorite(article: article)
-//        objectWillChange.send() // ručno refresh jer favorites nisu @Published
+    func toggleFavorite(article: Article) {
+        articleUseCase
+            .toggleFavorite(article: article)
+            .sink { _ in }
+            .store(in: &cancellables)
     }
     
     func toggleTopic(_ topic: String) {
@@ -68,7 +72,13 @@ class AllArticlesViewModel {
         }
     }
     
-    func loadArticles() {
+    private func bind() {
+        getArticles()
+        getTopics()
+        getFavorites()
+    }
+    
+    func getArticles() {
         isLoading = true
         errorMessage = nil
         
@@ -87,7 +97,7 @@ class AllArticlesViewModel {
             .store(in: &cancellables)
     }
     
-    func loadTopics() {
+    func getTopics() {
         isLoading = true
         errorMessage = nil
         
@@ -102,6 +112,17 @@ class AllArticlesViewModel {
                 }
             } receiveValue: { [weak self] topics in
                 self?.topics = topics
+            }
+            .store(in: &cancellables)
+    }
+    
+    func getFavorites() {
+        articleUseCase
+            .getFavorites()
+            .map { Set($0.map { $0.id }) }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] ids in
+                self?.favoriteIDs = ids
             }
             .store(in: &cancellables)
     }

@@ -33,15 +33,15 @@ final class ArticleRepository: ArticleRepositoryContract {
     
     // MARK: Local
     
-    func toggleFavorite(article: Article) {
+    func toggleFavorite(article: Article) -> AnyPublisher<Bool, Never> {
         local.toggleFavorite(article: article)
     }
     
-    func isFavorite(article: Article) -> Bool {
+    func isFavorite(article: Article) -> AnyPublisher<Bool, Never> {
         local.isFavorite(article: article)
     }
     
-    func loadFavorites() -> [Article] {
+    func loadFavorites() -> AnyPublisher<[Article], Never> {
         local.loadFavorites()
     }
 }

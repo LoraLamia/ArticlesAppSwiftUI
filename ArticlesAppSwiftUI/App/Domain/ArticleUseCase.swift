@@ -26,16 +26,15 @@ final class ArticleUseCase: ArticleUseCaseAllArticles, ArticleUseCaseFavorites {
     
     // MARK: Local
 
-    func toggleFavorite(article: Article) {
+    func toggleFavorite(article: Article) -> AnyPublisher<Bool, Never> {
         repository.toggleFavorite(article: article)
     }
     
-    func getFavorites() -> [Article] {
+    func getFavorites() -> AnyPublisher<[Article], Never> {
         repository.loadFavorites()
     }
     
-    func isFavorite(article: Article) -> Bool {
+    func isFavorite(article: Article) -> AnyPublisher<Bool, Never> {
         repository.isFavorite(article: article)
     }
 }
-

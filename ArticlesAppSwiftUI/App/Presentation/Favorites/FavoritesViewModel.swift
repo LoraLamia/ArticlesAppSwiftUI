@@ -11,20 +11,30 @@ import SwiftUI
 @Observable
 class FavoritesViewModel {
     private let articleUseCase: ArticleUseCaseFavorites
+    private var cancellables = Set<AnyCancellable>()
     
     var articles: [Article] = []
     
     init(articleUseCase: ArticleUseCaseFavorites) {
         self.articleUseCase = articleUseCase
+        bind()
     }
     
-    func loadArticles() {
-        articles = articleUseCase.getFavorites()
+    func bind() {
+        articleUseCase
+            .getFavorites()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] favorites in
+                self?.articles = favorites
+            }
+            .store(in: &cancellables)
     }
     
     func toggleFavorite(article: Article) {
-        articleUseCase.toggleFavorite(article: article)
-        loadArticles()
+        articleUseCase
+            .toggleFavorite(article: article)
+            .sink { _ in }
+            .store(in: &cancellables)
     }
 }
 

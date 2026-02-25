@@ -13,9 +13,6 @@ struct FavoritesView: View {
 
     var body: some View {
         favoritesList
-            .onAppear {
-                viewModel.loadArticles()
-            }
     }
     
     private var favoritesList: some View {

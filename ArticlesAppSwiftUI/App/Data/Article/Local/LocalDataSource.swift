@@ -10,43 +10,52 @@ import Foundation
 
 final class LocalDataSource {
     private let favoritesKey = Constants.Keys.favoritesKey
+    private let favoritesSubject: CurrentValueSubject<[Article], Never>
+    
+    init() {
+        if let data = UserDefaults.standard.data(forKey: favoritesKey),
+           let decoded = try? JSONDecoder().decode([Article].self, from: data) {
+            favoritesSubject = CurrentValueSubject(decoded)
+        } else {
+            favoritesSubject = CurrentValueSubject([])
+        }
+    }
 
-    func toggleFavorite(article: Article) {
-        var current = loadFavorites()
+    func toggleFavorite(article: Article) -> AnyPublisher<Bool, Never> {
+        var current = favoritesSubject.value
+        
+        let isNowFavorite: Bool
         
         if let index = current.firstIndex(where: { $0.id == article.id }) {
             current.remove(at: index)
+            isNowFavorite = false
         } else {
             current.append(article)
+            isNowFavorite = true
         }
         
-        saveFavorites(current)
-    }
-    
-    func loadFavorites() -> [Article] {
-        guard let data = UserDefaults.standard.data(forKey: favoritesKey) else {
-            return []
+        // persist
+        if let encoded = try? JSONEncoder().encode(current) {
+            UserDefaults.standard.set(encoded, forKey: favoritesKey)
         }
         
-        do {
-            return try JSONDecoder().decode([Article].self, from: data)
-        } catch {
-            print("Failed to decode favorites:", error)
-            return []
-        }
+        // emit new state
+        favoritesSubject.send(current)
+        
+        return Just(isNowFavorite)
+            .eraseToAnyPublisher()
     }
     
-    private func saveFavorites(_ articles: [Article]) {
-        do {
-            let data = try JSONEncoder().encode(articles)
-            UserDefaults.standard.set(data, forKey: favoritesKey)
-        } catch {
-            print("Failed to encode favorites:", error)
-        }
+    func loadFavorites() -> AnyPublisher<[Article], Never> {
+        favoritesSubject
+            .eraseToAnyPublisher()
     }
     
-    func isFavorite(article: Article) -> Bool {
-        loadFavorites().contains(where: { $0.id == article.id })
+    func isFavorite(article: Article) -> AnyPublisher<Bool, Never> {
+        favoritesSubject
+            .map { $0.contains(where: { $0.id == article.id }) }
+            .removeDuplicates()
+            .eraseToAnyPublisher()
     }
 }
 

@@ -13,8 +13,8 @@ protocol ArticleRepositoryContract {
     func fetchTopics() -> AnyPublisher<[String], Error>
     
     // MARK: Local
-    func toggleFavorite(article: Article)
-    func isFavorite(article: Article) -> Bool
-    func loadFavorites() -> [Article]
+    func toggleFavorite(article: Article) -> AnyPublisher<Bool, Never>
+    func isFavorite(article: Article) -> AnyPublisher<Bool, Never>
+    func loadFavorites() -> AnyPublisher<[Article], Never>
 }
 

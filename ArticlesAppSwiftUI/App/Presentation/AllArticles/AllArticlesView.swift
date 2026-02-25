@@ -16,10 +16,6 @@ struct AllArticlesView: View {
             topicsList
             articlesList
         }
-        .onAppear {
-            viewModel.loadArticles()
-            viewModel.loadTopics()
-        }
     }
     
     private var articlesList: some View {
@@ -30,7 +26,7 @@ struct AllArticlesView: View {
                         article: article,
                         isFavorite: viewModel.isFavorite(article),
                         onFavoriteTap: {
-                            viewModel.toggleFavorite(article)
+                            viewModel.toggleFavorite(article: article)
                         }
                     )
                 }
