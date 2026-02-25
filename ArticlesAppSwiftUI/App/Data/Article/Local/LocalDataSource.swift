@@ -50,13 +50,6 @@ final class LocalDataSource {
         favoritesSubject
             .eraseToAnyPublisher()
     }
-    
-    func isFavorite(article: Article) -> AnyPublisher<Bool, Never> {
-        favoritesSubject
-            .map { $0.contains(where: { $0.id == article.id }) }
-            .removeDuplicates()
-            .eraseToAnyPublisher()
-    }
 }
 
 

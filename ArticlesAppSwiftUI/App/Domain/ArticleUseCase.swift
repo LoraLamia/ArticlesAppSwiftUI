@@ -33,8 +33,4 @@ final class ArticleUseCase: ArticleUseCaseAllArticles, ArticleUseCaseFavorites {
     func getFavorites() -> AnyPublisher<[Article], Never> {
         repository.loadFavorites()
     }
-    
-    func isFavorite(article: Article) -> AnyPublisher<Bool, Never> {
-        repository.isFavorite(article: article)
-    }
 }

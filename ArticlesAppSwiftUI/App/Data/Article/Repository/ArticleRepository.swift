@@ -37,10 +37,6 @@ final class ArticleRepository: ArticleRepositoryContract {
         local.toggleFavorite(article: article)
     }
     
-    func isFavorite(article: Article) -> AnyPublisher<Bool, Never> {
-        local.isFavorite(article: article)
-    }
-    
     func loadFavorites() -> AnyPublisher<[Article], Never> {
         local.loadFavorites()
     }
