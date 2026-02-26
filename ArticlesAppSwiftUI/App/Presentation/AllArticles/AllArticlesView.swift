@@ -16,6 +16,18 @@ struct AllArticlesView: View {
             topicsList
             articlesList
         }
+        .overlay {
+            if viewModel.isLoading {
+                ZStack {
+                    Color.black.opacity(0.7)
+                        .ignoresSafeArea()
+                    
+                    ProgressView()
+                        .scaleEffect(1.5)
+                        .progressViewStyle(.circular)
+                }
+            }
+        }
     }
     
     private var articlesList: some View {
