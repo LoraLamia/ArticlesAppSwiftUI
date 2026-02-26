@@ -23,17 +23,109 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "F53289C8-7999-4EA3-933F-86C3D2EC2150"
+            uuid = "DB3F11BC-380E-4AB9-8629-C0C5968A2237"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ArticlesAppSwiftUI/App/Data/Article/Remote/ArticleRemoteDataSource.swift"
+            filePath = "ArticlesAppSwiftUI/App/Presentation/AllArticles/AllArticlesViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "fetchArticles(page:)"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
+            landmarkName = "getArticles()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3C34D8CF-EAAE-46AA-BC0E-6BE6271AACCE"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ArticlesAppSwiftUI/App/Presentation/AllArticles/AllArticlesViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "getArticles()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "817AF1F3-ED65-4D4D-B3F6-8E31865234DD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ArticlesAppSwiftUI/App/Presentation/AllArticles/AllArticlesViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "getArticles()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DF1AF3BE-4B23-4D75-8EA7-C7BB5BCC0144"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ArticlesAppSwiftUI/App/Presentation/AllArticles/AllArticlesViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "getArticles()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DF1AF3BE-4B23-4D75-8EA7-C7BB5BCC0144 - fbff85e749623eca"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ArticlesAppSwiftUI.AllArticlesViewModel.getArticles() -&gt; ()"
+                  moduleName = "ArticlesAppSwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lorazubic/Developer/ArticlesAppSwiftUI/ArticlesAppSwiftUI/App/Presentation/AllArticles/AllArticlesViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "100"
+                  endingLineNumber = "100">
+               </Location>
+               <Location
+                  uuid = "DF1AF3BE-4B23-4D75-8EA7-C7BB5BCC0144 - 58b63bb8d564e3f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Combine.Subscribers.Completion&lt;Swift.Error&gt;) -&gt; () in ArticlesAppSwiftUI.AllArticlesViewModel.getArticles() -&gt; ()"
+                  moduleName = "ArticlesAppSwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lorazubic/Developer/ArticlesAppSwiftUI/ArticlesAppSwiftUI/App/Presentation/AllArticles/AllArticlesViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "100"
+                  endingLineNumber = "100">
+               </Location>
+               <Location
+                  uuid = "DF1AF3BE-4B23-4D75-8EA7-C7BB5BCC0144 - 796f6ed74fbd40da"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Array&lt;ArticlesAppSwiftUI.Article&gt;) -&gt; () in ArticlesAppSwiftUI.AllArticlesViewModel.getArticles() -&gt; ()"
+                  moduleName = "ArticlesAppSwiftUI.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lorazubic/Developer/ArticlesAppSwiftUI/ArticlesAppSwiftUI/App/Presentation/AllArticles/AllArticlesViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "100"
+                  endingLineNumber = "100">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -10,15 +10,10 @@ import Alamofire
 import Combine
 
 final class ArticleRemoteDataSource {
-    private let onUnauthorized: () -> Void
     private var headers: HTTPHeaders {
         return [
             "Authorization": "Bearer \(KeychainManager.getToken() ?? "")"
         ]
-    }
-    
-    init(onUnauthorized: @escaping () -> Void) {
-        self.onUnauthorized = onUnauthorized
     }
     
     func fetchArticles(page: Int) -> AnyPublisher<[Article], AFError> {
@@ -39,14 +34,25 @@ final class ArticleRemoteDataSource {
         )
         .validate()
         .publishDecodable(type: ArticlesResponse.self, decoder: decoder)
-        .value()
-        .handleEvents(receiveCompletion: { [weak self] completion in
-            if case .failure(let error) = completion,
-               error.responseCode == 401 {
-                self?.onUnauthorized()
+        .tryMap { response in
+            
+            let statusCode = response.response?.statusCode ?? -1
+            print("STATUS CODE:", statusCode)
+            
+            if let error = response.error {
+                print("AF ERROR:", error)
+                throw error
             }
-        })
-        .map { $0.articles.data }
+            
+            guard let value = response.value else {
+                throw AFError.responseValidationFailed(reason: .dataFileNil)
+            }
+            
+            return value.articles.data
+        }
+        .mapError { error in
+            error as? AFError ?? AFError.createURLRequestFailed(error: error)
+        }
         .eraseToAnyPublisher()
     }
     

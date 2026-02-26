@@ -11,6 +11,7 @@ import Foundation
 @Observable
 class AllArticlesViewModel {
     private let articleUseCase: ArticleUseCaseAllArticles
+    private let session: SessionManager
     private var cancellables = Set<AnyCancellable>()
     
     var articles: [Article] = []
@@ -48,8 +49,9 @@ class AllArticlesViewModel {
         }
     }
     
-    init(articleUseCase: ArticleUseCaseAllArticles) {
+    init(articleUseCase: ArticleUseCaseAllArticles, session: SessionManager) {
         self.articleUseCase = articleUseCase
+        self.session = session
         bind()
     }
     
@@ -89,7 +91,11 @@ class AllArticlesViewModel {
                 self.isLoading = false
                 
                 if case .failure(let error) = completion {
-                    self.errorMessage = error.localizedDescription
+                    if case DomainError.unauthorized = error {
+                        session.logout()
+                    } else {
+                        self.errorMessage = error.localizedDescription
+                    }
                 }
             } receiveValue: { [weak self] articles in
                 self?.articles = articles

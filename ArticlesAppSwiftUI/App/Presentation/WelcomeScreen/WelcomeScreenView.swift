@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WelcomeScreenView: View {
     @Environment(SessionManager.self) private var session
-    let container: DependencyContainer
+    @Environment(DependencyContainer.self) private var container
 
     var body: some View {
         NavigationStack {

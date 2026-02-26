@@ -8,16 +8,14 @@
 import SwiftUI
 
 struct RootView: View {
-    
     @Environment(SessionManager.self) private var session
-    let container: DependencyContainer
     
     var body: some View {
         Group {
             if session.isLoggedIn {
-                MainView(container: container)
+                MainView()
             } else {
-                WelcomeScreenView(container: container)
+                WelcomeScreenView()
             }
         }
     }

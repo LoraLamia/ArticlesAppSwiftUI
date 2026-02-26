@@ -6,11 +6,11 @@
 //
 
 import Combine
+import Alamofire
 
 final class ArticleRepository: ArticleRepositoryContract {
     private let remote: ArticleRemoteDataSource
     private let local: ArticleLocalDataSource
-    
     
     init(remote: ArticleRemoteDataSource, local: ArticleLocalDataSource) {
         self.remote = remote
@@ -21,7 +21,12 @@ final class ArticleRepository: ArticleRepositoryContract {
     
     func fetchArticles(page: Int) -> AnyPublisher<[Article], Error> {
         remote.fetchArticles(page: page)
-            .mapError { $0 as Error }
+            .mapError { error -> Error in
+                if error.responseCode == 401 {
+                    return DomainError.unauthorized
+                }
+                return DomainError.network(error)
+            }
             .eraseToAnyPublisher()
     }
     
@@ -40,4 +45,9 @@ final class ArticleRepository: ArticleRepositoryContract {
     func loadFavorites() -> AnyPublisher<[Article], Never> {
         local.loadFavorites()
     }
+}
+
+enum DomainError: Error {
+    case unauthorized
+    case network(Error)
 }

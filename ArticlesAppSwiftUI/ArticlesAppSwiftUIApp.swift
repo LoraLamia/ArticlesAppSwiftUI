@@ -10,16 +10,13 @@ import SwiftUI
 @main
 struct ArticlesAppSwiftUIApp: App {
     private let session = SessionManager()
-    private var container: DependencyContainer
-    
-    init() {
-        container = DependencyContainer(sessionManager: session)
-    }
+    private var container = DependencyContainer()
     
     var body: some Scene {
         WindowGroup {
-            RootView(container: container)
+            RootView()
                 .environment(session)
+                .environment(container)
         }
     }
 }

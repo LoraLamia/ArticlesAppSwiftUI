@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct MainView: View {
-    let container: DependencyContainer
+    @Environment(DependencyContainer.self) private var container
+    @Environment(SessionManager.self) private var session
 
     var body: some View {
         TabView {
             AllArticlesView(
                 viewModel: AllArticlesViewModel(
-                    articleUseCase: container.articleUseCase
+                    articleUseCase: container.articleUseCase,
+                    session: session
                 )
             )
                 .tabItem {
