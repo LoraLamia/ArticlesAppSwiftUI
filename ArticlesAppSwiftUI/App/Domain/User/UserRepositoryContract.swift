@@ -9,4 +9,5 @@ import Combine
 
 protocol UserRepositoryContract {
     func registerUser(username: String, password: String) -> AnyPublisher<Void, Error>
+    func loginUser(username: String, password: String) -> AnyPublisher<Void, Error>
 }

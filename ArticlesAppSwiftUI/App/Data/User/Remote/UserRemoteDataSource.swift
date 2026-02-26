@@ -21,4 +21,16 @@ final class UserRemoteDataSource {
         .value()
         .eraseToAnyPublisher()
     }
+    
+    func loginUser(username: String, password: String) -> AnyPublisher<UserResponse, AFError> {
+        return AF.request(
+            Constants.API.baseURL + Constants.API.loginEndpoint,
+            method: .post,
+            parameters: ["username": username, "password": password]
+        )
+        .validate()
+        .publishDecodable(type: UserResponse.self)
+        .value()
+        .eraseToAnyPublisher()
+    }
 }

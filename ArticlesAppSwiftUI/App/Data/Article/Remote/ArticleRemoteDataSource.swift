@@ -34,25 +34,8 @@ final class ArticleRemoteDataSource {
         )
         .validate()
         .publishDecodable(type: ArticlesResponse.self, decoder: decoder)
-        .tryMap { response in
-            
-            let statusCode = response.response?.statusCode ?? -1
-            print("STATUS CODE:", statusCode)
-            
-            if let error = response.error {
-                print("AF ERROR:", error)
-                throw error
-            }
-            
-            guard let value = response.value else {
-                throw AFError.responseValidationFailed(reason: .dataFileNil)
-            }
-            
-            return value.articles.data
-        }
-        .mapError { error in
-            error as? AFError ?? AFError.createURLRequestFailed(error: error)
-        }
+        .value()
+        .map { $0.articles.data }
         .eraseToAnyPublisher()
     }
     

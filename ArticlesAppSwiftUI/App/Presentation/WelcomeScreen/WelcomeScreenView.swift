@@ -27,14 +27,20 @@ struct WelcomeScreenView: View {
                 Text(Constants.Strings.newUser)
                 NavigationLink(
                     destination: RegistrationView(
-                        viewModel: RegistrationViewModel(userUseCase: container.userUseCase, session: session))) {
+                        viewModel: RegistrationViewModel(userUseCase: container.userUseCase, session: session)
+                    )
+                ) {
                     Text(Constants.Strings.signUp)
                         .foregroundStyle(Constants.Colors.primaryColor)
                         .underline()
                 }
                 Spacer()
                 Text(Constants.Strings.existingUser)
-                NavigationLink(destination: LoginView()) {
+                NavigationLink(
+                    destination: LoginView(
+                        viewModel: LoginViewModel(userUseCase: container.userUseCase, session: session)
+                    )
+                ) {
                     Text(Constants.Strings.signIn)
                         .foregroundStyle(Constants.Colors.primaryColor)
                         .underline()

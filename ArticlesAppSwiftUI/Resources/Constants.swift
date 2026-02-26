@@ -13,6 +13,7 @@ enum Constants {
         static let articlesEndpoint = "/api/articles"
         static let topicsEndpoint = "/api/articles/topics"
         static let registerEndpoint = "/api/auth/register"
+        static let loginEndpoint = "/api/auth/login"
         
         static let token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWVkNTU3YmEyN2NmOTM5ODVhOGRjZSIsInVzZXJuYW1lIjoibWFya29ob3J2YXQiLCJyb2xlIjoiQmFzaWMiLCJpYXQiOjE3NzIwMTY5ODQsImV4cCI6MTc3MjAyNzc4NH0.cgqVq84GYXBE4JGr_YPQ5vImswMSY-C-OOT2-UPfPiE"
     }
@@ -41,7 +42,10 @@ enum Constants {
         static let createAccount = "Create Account"
         static let requiredFields = "Username and password are required"
         static let registrationFailed = "Registration failed"
-        static let ok = "OK" 
+        static let ok = "OK"
+        static let loginTitle = "Log in"
+        static let loginFailed = "Login failed"
+        static let login = "Login"
     }
     
     enum Fonts {

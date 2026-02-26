@@ -7,7 +7,7 @@
 
 import Combine
 
-final class UserUseCase: UserUseCaseRegistration {
+final class UserUseCase: UserUseCaseRegistration, UserUseCaseLogin {
     
     private let userRepository: UserRepository
     
@@ -17,6 +17,10 @@ final class UserUseCase: UserUseCaseRegistration {
     
     func register(username: String, password: String) -> AnyPublisher<Void, Error> {
         userRepository.registerUser(username: username, password: password)
+    }
+    
+    func login(username: String, password: String) -> AnyPublisher<Void, Error> {
+        userRepository.loginUser(username: username, password: password)
     }
 }
 
