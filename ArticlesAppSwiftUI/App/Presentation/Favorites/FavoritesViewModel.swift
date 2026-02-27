@@ -20,20 +20,41 @@ class FavoritesViewModel {
         bind()
     }
     
-    func bind() {
+    func toggleFavorite(article: Article) {
         articleUseCase
-            .getFavorites()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] favorites in
-                self?.articles = favorites
-            }
+            .toggleFavorite(articleId: article.id)
+            .sink { _ in }
             .store(in: &cancellables)
     }
     
-    func toggleFavorite(article: Article) {
+    func bind() {
         articleUseCase
-            .toggleFavorite(article: article)
-            .sink { _ in }
+            .getFavoriteIDs()
+            .flatMap { [weak self] ids -> AnyPublisher<[Article], Never> in
+                guard let self = self else {
+                    return Just([]).eraseToAnyPublisher()
+                }
+                                
+                guard !ids.isEmpty else {
+                    return Just([]).eraseToAnyPublisher()
+                }
+                
+                let publishers = ids.map { id in
+                    self.articleUseCase
+                        .getArticle(id: id)
+                        .catch { error -> Empty<Article, Never> in
+                            return Empty()
+                        }
+                }
+                
+                return Publishers.MergeMany(publishers)
+                    .collect()
+                    .eraseToAnyPublisher()
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] articles in
+                self?.articles = articles
+            }
             .store(in: &cancellables)
     }
 }

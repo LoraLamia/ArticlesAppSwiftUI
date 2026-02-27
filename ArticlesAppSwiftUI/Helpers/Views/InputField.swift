@@ -11,17 +11,14 @@ struct InputField: View {
     let placeholder: String
     @Binding var text: String
     var isSecure: Bool = false
-    
-    @FocusState private var isFocused: Bool
-    
+    var isFocused: Bool
+
     var body: some View {
         Group {
             if isSecure {
                 SecureField(placeholder, text: $text)
-                    .focused($isFocused)
             } else {
                 TextField(placeholder, text: $text)
-                    .focused($isFocused)
             }
         }
         .padding()
@@ -38,7 +35,7 @@ struct InputField: View {
 #Preview {
     @Previewable @State var username: String = ""
 
-    return InputField(placeholder: "Username", text: $username)
+    return InputField(placeholder: "Username", text: $username, isFocused: true)
         .padding(Constants.Padding.normal)
 }
 

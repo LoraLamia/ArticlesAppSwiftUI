@@ -34,19 +34,15 @@ class RegistrationViewModel {
             .sink(
                 receiveCompletion: { [weak self] completion in
                     guard let self else { return }
-                    self.isLoading = false
                     
-                    switch completion {
-                    case .failure(let error):
+                    if case .failure(let error) = completion {
                         self.errorMessage = error.localizedDescription
                         self.showErrorMessage = true
-                    case .finished:
-                        self.session.checkLoginStatus()
                     }
+                    self.isLoading = false
                 },
                 receiveValue: { _ in }
             )
             .store(in: &cancellables)
     }
-    
 }

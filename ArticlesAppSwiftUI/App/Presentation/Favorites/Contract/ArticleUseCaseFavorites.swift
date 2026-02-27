@@ -8,7 +8,8 @@
 import Combine
 
 protocol ArticleUseCaseFavorites {
-    func getFavorites() -> AnyPublisher<[Article], Never>
-    func toggleFavorite(article: Article) -> AnyPublisher<Bool, Never>
+    func getFavoriteIDs() -> AnyPublisher<[String], Never>
+    func toggleFavorite(articleId: String) -> AnyPublisher<Bool, Never>
+    func getArticle(id: String) -> AnyPublisher<Article, Error>
 }
 

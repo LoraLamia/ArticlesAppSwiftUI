@@ -10,7 +10,7 @@ import Security
 
 final class KeychainManager {
 
-    static func save(token: String) {
+    static func saveToken(token: String) {
         let data = Data(token.utf8)
 
         deleteToken()

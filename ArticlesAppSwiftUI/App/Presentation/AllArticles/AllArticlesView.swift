@@ -50,28 +50,18 @@ struct AllArticlesView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: Constants.Spacing.small) {
                 
-                Button {
-                    viewModel.selectedTopic = nil
-                } label: {
-                    Text(Constants.Strings.allArticles)
-                        .padding(.horizontal, Constants.Padding.small)
-                        .padding(.vertical, Constants.Padding.extraSmall)
-                        .background(viewModel.selectedTopic == nil ? Constants.Colors.primaryColor : Constants.Colors.topicCellUnselectedColor)
-                        .foregroundColor(viewModel.selectedTopic == nil ? Constants.Colors.topicCellTextSelectedColor : Constants.Colors.primaryColor)
-                        .cornerRadius(Constants.CornerRadius.normal)
-                }
+                TopicCellView(
+                    callback: { viewModel.selectedTopic = nil },
+                    topic: Constants.Strings.allArticles,
+                    isSelected: viewModel.selectedTopic == nil
+                )
                 
                 ForEach(viewModel.topics, id: \.self) { topic in
-                    Button {
-                        viewModel.selectedTopic = topic
-                    } label: {
-                        Text(topic)
-                            .padding(.horizontal, Constants.Padding.small)
-                            .padding(.vertical, Constants.Padding.extraSmall)
-                            .background(viewModel.selectedTopic == topic ? Constants.Colors.primaryColor : Constants.Colors.topicCellUnselectedColor)
-                            .foregroundColor(viewModel.selectedTopic == topic ? Constants.Colors.topicCellTextSelectedColor : Constants.Colors.primaryColor)
-                            .cornerRadius(Constants.CornerRadius.normal)
-                    }
+                    TopicCellView(
+                        callback: { viewModel.selectedTopic = topic },
+                        topic: topic,
+                        isSelected: viewModel.selectedTopic == topic
+                    )
                 }
             }
             .padding(.horizontal, Constants.Padding.small)

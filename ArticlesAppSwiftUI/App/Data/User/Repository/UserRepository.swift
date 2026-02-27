@@ -8,26 +8,24 @@
 import Combine
 
 final class UserRepository: UserRepositoryContract {
-    private let remote: UserRemoteDataSource
+    private let remote: UserRemoteDataSourceContract
     
-    init(remote: UserRemoteDataSource) {
+    init(remote: UserRemoteDataSourceContract) {
         self.remote = remote
     }
     
-    func registerUser(username: String, password: String) -> AnyPublisher<Void, Error> {
+    //get user funkcija koja zove getarticles
+    
+    func registerUser(username: String, password: String) -> AnyPublisher<UserData, Error> {
         remote.registerUser(username: username, password: password)
-            .map { response in
-                KeychainManager.save(token: response.accessToken)
-            }
+            .map { UserData(username: "john doe", accessToken: $0.accessToken) }
             .mapError { $0 as Error }
             .eraseToAnyPublisher()
     }
     
-    func loginUser(username: String, password: String) -> AnyPublisher<Void, Error> {
+    func loginUser(username: String, password: String) -> AnyPublisher<UserData, Error> {
         remote.loginUser(username: username, password: password)
-            .map { response in
-                KeychainManager.save(token: response.accessToken)
-            }
+            .map { UserData(username: "john doe", accessToken: $0.accessToken) }
             .mapError { $0 as Error }
             .eraseToAnyPublisher()
     }

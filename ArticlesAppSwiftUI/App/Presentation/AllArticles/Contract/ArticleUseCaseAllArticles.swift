@@ -10,8 +10,8 @@ import Combine
 protocol ArticleUseCaseAllArticles {
     func getArticles(page: Int) -> AnyPublisher<[Article], Error>
     func getTopics() -> AnyPublisher<[String], Error>
-    func getFavorites() -> AnyPublisher<[Article], Never>
-    func toggleFavorite(article: Article) -> AnyPublisher<Bool, Never>
+    func getFavoriteIDs() -> AnyPublisher<[String], Never>
+    func toggleFavorite(articleId: String) -> AnyPublisher<Bool, Never>
 }
 
 

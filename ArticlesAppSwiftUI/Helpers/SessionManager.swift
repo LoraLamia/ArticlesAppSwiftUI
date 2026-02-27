@@ -7,22 +7,27 @@
 
 import SwiftUI
 
+struct User {
+    let username: String
+}
+
+struct UserData {
+    let username: String
+    let accessToken: String
+}
+
 @Observable
 final class SessionManager {
+    private(set) var currentUser: User?
     
-    var isLoggedIn: Bool = false
-    
-    init() {
-        checkLoginStatus()
+    func login(with userData: UserData) {
+        currentUser = User(username: userData.username)
+        KeychainManager.saveToken(token: userData.accessToken)
     }
-    
-    func checkLoginStatus() {
-        isLoggedIn = KeychainManager.getToken() != nil
-    }
-    
+
     func logout() {
+        currentUser = nil
         KeychainManager.deleteToken()
-        isLoggedIn = false
     }
 }
 

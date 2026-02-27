@@ -60,8 +60,15 @@ class AllArticlesViewModel {
     }
     
     func toggleFavorite(article: Article) {
+        if favoriteIDs.contains(article.id) {
+            favoriteIDs.remove(article.id)
+        } else {
+            favoriteIDs.insert(article.id)
+        }
+        
         articleUseCase
-            .toggleFavorite(article: article)
+            .toggleFavorite(articleId: article.id)
+            .receive(on: DispatchQueue.main)
             .sink { _ in }
             .store(in: &cancellables)
     }
@@ -106,7 +113,7 @@ class AllArticlesViewModel {
     func getTopics() {
         isLoading = true
         errorMessage = nil
-        
+
         articleUseCase.getTopics()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -124,11 +131,10 @@ class AllArticlesViewModel {
     
     func getFavorites() {
         articleUseCase
-            .getFavorites()
-            .map { Set($0.map { $0.id }) }
+            .getFavoriteIDs()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] ids in
-                self?.favoriteIDs = ids
+                self?.favoriteIDs = Set(ids)
             }
             .store(in: &cancellables)
     }

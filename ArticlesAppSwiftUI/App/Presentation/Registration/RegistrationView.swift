@@ -9,7 +9,8 @@ import SwiftUI
 
 struct RegistrationView: View {
     @State var viewModel: RegistrationViewModel
-    
+    @FocusState private var focusedField: Field?
+
     var body: some View {
         VStack(spacing: Constants.Spacing.large) {
             title
@@ -26,6 +27,9 @@ struct RegistrationView: View {
             Button(Constants.Strings.ok, role: .cancel) { }
         } message: {
             Text(viewModel.errorMessage ?? "")
+        }
+        .onAppear {
+            focusedField = .username
         }
     }
     
@@ -56,14 +60,23 @@ struct RegistrationView: View {
         VStack(spacing: Constants.Padding.normal) {
             InputField(
                 placeholder: Constants.Strings.usernamePlaceholder,
-                text: $viewModel.username
+                text: $viewModel.username,
+                isFocused: focusedField == .username
             )
+            .focused($focusedField, equals: .username)
+            .submitLabel(.next)
+            .onSubmit {
+                focusedField = .password
+            }
             
             InputField(
                 placeholder: Constants.Strings.passwordPlaceholder,
                 text: $viewModel.password,
-                isSecure: true
+                isSecure: true,
+                isFocused: focusedField == .password
             )
+            .focused($focusedField, equals: .password)
+            .submitLabel(.done)
         }
     }
     

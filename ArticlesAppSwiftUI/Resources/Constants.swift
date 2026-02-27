@@ -12,10 +12,9 @@ enum Constants {
         static let baseURL = "https://interview-assignment-be-rn3c.onrender.com"
         static let articlesEndpoint = "/api/articles"
         static let topicsEndpoint = "/api/articles/topics"
+        static let articleByIdEndpoint = "/api/articles/"
         static let registerEndpoint = "/api/auth/register"
         static let loginEndpoint = "/api/auth/login"
-        
-        static let token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5OWVkNTU3YmEyN2NmOTM5ODVhOGRjZSIsInVzZXJuYW1lIjoibWFya29ob3J2YXQiLCJyb2xlIjoiQmFzaWMiLCJpYXQiOjE3NzIwMTY5ODQsImV4cCI6MTc3MjAyNzc4NH0.cgqVq84GYXBE4JGr_YPQ5vImswMSY-C-OOT2-UPfPiE"
     }
     
     enum UserDefaults {

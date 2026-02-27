@@ -11,9 +11,10 @@ protocol ArticleRepositoryContract {
     // MARK: Remote
     func fetchArticles(page: Int) -> AnyPublisher<[Article], Error>
     func fetchTopics() -> AnyPublisher<[String], Error>
+    func fetchArticle(id: String) -> AnyPublisher<[Article], Error>
     
     // MARK: Local
-    func toggleFavorite(article: Article) -> AnyPublisher<Bool, Never>
-    func loadFavorites() -> AnyPublisher<[Article], Never>
+    func toggleFavorite(articleId: String) -> AnyPublisher<Bool, Never>
+    func loadFavoriteIDs() -> AnyPublisher<[String], Never>
 }
 

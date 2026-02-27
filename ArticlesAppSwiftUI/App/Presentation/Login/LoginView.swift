@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LoginView: View {
     @State var viewModel: LoginViewModel
+    @FocusState private var focusedField: Field?
     
     var body: some View {
         VStack(spacing: Constants.Spacing.large) {
@@ -26,6 +27,9 @@ struct LoginView: View {
             Button(Constants.Strings.ok, role: .cancel) { }
         } message: {
             Text(viewModel.errorMessage ?? "")
+        }
+        .onAppear {
+            focusedField = .username
         }
     }
     
@@ -55,14 +59,23 @@ struct LoginView: View {
         VStack(spacing: Constants.Padding.normal) {
             InputField(
                 placeholder: Constants.Strings.usernamePlaceholder,
-                text: $viewModel.username
+                text: $viewModel.username,
+                isFocused: focusedField == .username
             )
+            .focused($focusedField, equals: .username)
+            .submitLabel(.next)
+            .onSubmit {
+                focusedField = .password
+            }
             
             InputField(
                 placeholder: Constants.Strings.passwordPlaceholder,
                 text: $viewModel.password,
-                isSecure: true
+                isSecure: true,
+                isFocused: focusedField == .password
             )
+            .focused($focusedField, equals: .password)
+            .submitLabel(.done)
         }
     }
     
@@ -71,4 +84,3 @@ struct LoginView: View {
             .font(.system(size: Constants.Fonts.extraLarge))
     }
 }
-

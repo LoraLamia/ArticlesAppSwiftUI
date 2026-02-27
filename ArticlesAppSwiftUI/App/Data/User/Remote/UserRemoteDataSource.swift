@@ -8,7 +8,7 @@
 import Combine
 import Alamofire
 
-final class UserRemoteDataSource {
+final class UserRemoteDataSource: UserRemoteDataSourceContract {
     
     func registerUser(username: String, password: String) -> AnyPublisher<UserResponse, AFError> {
         return AF.request(

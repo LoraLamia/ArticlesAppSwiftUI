@@ -10,8 +10,8 @@ import SwiftUI
 @Observable
 final class DependencyContainer {
     // Article
-    private let remote: ArticleRemoteDataSource
-    private let local: ArticleLocalDataSource
+    private let remote: ArticleDataSource
+    private let local: FavoriteArticlesDataSource
     
     let articleRepository: ArticleRepository
     let articleUseCase: ArticleUseCase
@@ -23,11 +23,11 @@ final class DependencyContainer {
     let userUseCase: UserUseCase
     
     
-    init() {
+    init(sessionManager: SessionManager) {
         // Article
-        self.remote = ArticleRemoteDataSource()
+        self.remote = ArticleDataSource()
         
-        self.local = ArticleLocalDataSource()
+        self.local = FavoriteArticlesDataSource()
         
         self.articleRepository = ArticleRepository(
             remote: remote,
@@ -46,7 +46,8 @@ final class DependencyContainer {
         )
         
         self.userUseCase = UserUseCase(
-            userRepository: userRepository
+            userRepository: userRepository,
+            sessionManager: sessionManager
         )
     }
 }

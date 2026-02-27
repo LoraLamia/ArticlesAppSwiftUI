@@ -7,7 +7,7 @@
 
 import Combine
 
-final class ArticleUseCase: ArticleUseCaseAllArticles, ArticleUseCaseFavorites {
+final class ArticleUseCase: ArticleUseCaseAllArticles, ArticleUseCaseFavorites, UserUseCaseRoot {
     private let repository: ArticleRepositoryContract
     
     init(repository: ArticleRepositoryContract) {
@@ -24,13 +24,23 @@ final class ArticleUseCase: ArticleUseCaseAllArticles, ArticleUseCaseFavorites {
         repository.fetchTopics()
     }
     
-    // MARK: Local
-
-    func toggleFavorite(article: Article) -> AnyPublisher<Bool, Never> {
-        repository.toggleFavorite(article: article)
+    func getUser() -> AnyPublisher<[Article], any Error> {
+        repository.fetchArticles(page: 1)
     }
     
-    func getFavorites() -> AnyPublisher<[Article], Never> {
-        repository.loadFavorites()
+    func getArticle(id: String) -> AnyPublisher<Article, Error> {
+        repository.fetchArticle(id: id)
+            .compactMap { $0.first }
+            .eraseToAnyPublisher()
+    }
+    
+    // MARK: Local
+
+    func toggleFavorite(articleId: String) -> AnyPublisher<Bool, Never> {
+        repository.toggleFavorite(articleId: articleId)
+    }
+    
+    func getFavoriteIDs() -> AnyPublisher<[String], Never> {
+        repository.loadFavoriteIDs()
     }
 }

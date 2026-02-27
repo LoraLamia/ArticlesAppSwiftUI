@@ -6,21 +6,36 @@
 //
 
 import Combine
+import SwiftUI
 
 final class UserUseCase: UserUseCaseRegistration, UserUseCaseLogin {
+    private var sessionManager: SessionManager
+    private let userRepository: UserRepositoryContract
     
-    private let userRepository: UserRepository
-    
-    init(userRepository: UserRepository) {
+    init(userRepository: UserRepository, sessionManager: SessionManager) {
         self.userRepository = userRepository
+        self.sessionManager = sessionManager
     }
     
     func register(username: String, password: String) -> AnyPublisher<Void, Error> {
-        userRepository.registerUser(username: username, password: password)
+        userRepository
+            .registerUser(username: username, password: password)
+            .handleEvents(receiveOutput: { userData in
+                self.sessionManager.login(with: userData)
+            })
+            .map { _ in }
+            .eraseToAnyPublisher()
+        
     }
     
     func login(username: String, password: String) -> AnyPublisher<Void, Error> {
-        userRepository.loginUser(username: username, password: password)
+        userRepository
+            .loginUser(username: username, password: password)
+            .handleEvents(receiveOutput: { userData in
+                self.sessionManager.login(with: userData)
+            })
+            .map { _ in }
+            .eraseToAnyPublisher()
     }
 }
 

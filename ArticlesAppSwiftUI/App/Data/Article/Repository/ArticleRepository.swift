@@ -9,10 +9,10 @@ import Combine
 import Alamofire
 
 final class ArticleRepository: ArticleRepositoryContract {
-    private let remote: ArticleRemoteDataSource
-    private let local: ArticleLocalDataSource
+    private let remote: ArticleDataSourceContract
+    private let local: FavoriteArticlesDataSource
     
-    init(remote: ArticleRemoteDataSource, local: ArticleLocalDataSource) {
+    init(remote: ArticleDataSourceContract, local: FavoriteArticlesDataSource) {
         self.remote = remote
         self.local = local
     }
@@ -36,18 +36,27 @@ final class ArticleRepository: ArticleRepositoryContract {
             .eraseToAnyPublisher()
     }
     
-    // MARK: Local
-    
-    func toggleFavorite(article: Article) -> AnyPublisher<Bool, Never> {
-        local.toggleFavorite(article: article)
+    func fetchArticle(id: String) -> AnyPublisher<[Article], Error> {
+        remote.fetchArticle(id: id)
+            .mapError { $0 as Error }
+            .eraseToAnyPublisher()
     }
     
-    func loadFavorites() -> AnyPublisher<[Article], Never> {
+    // MARK: Local
+    
+    func toggleFavorite(articleId: String) -> AnyPublisher<Bool, Never> {
+        local.toggleFavorite(articleId: articleId)
+    }
+    
+    func loadFavoriteIDs() -> AnyPublisher<[String], Never> {
         local.loadFavorites()
+            .eraseToAnyPublisher()
+
     }
 }
 
 enum DomainError: Error {
     case unauthorized
     case network(Error)
+    case notFound
 }
