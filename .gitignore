@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+
+# Ignore everything inside .xcodeproj
+*.xcodeproj/*
+
+# Keep essential project files
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+
+# Ignore workspace user data
+*.xcworkspace/xcuserdata/
+
+# Swift Package Manager
+.build/
+
+# Build folders
+DerivedData/
+build/
+
+# User state
+*.xcuserstate

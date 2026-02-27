@@ -12,41 +12,9 @@ struct RegistrationView: View {
     
     var body: some View {
         VStack(spacing: Constants.Spacing.large) {
-            Text(Constants.Strings.createAccount)
-                .font(.system(size: Constants.Fonts.extraLarge))
-
-            VStack(spacing: Constants.Padding.normal) {
-                InputField(
-                    placeholder: Constants.Strings.usernamePlaceholder,
-                    text: $viewModel.username
-                )
-                
-                InputField(
-                    placeholder: Constants.Strings.passwordPlaceholder,
-                    text: $viewModel.password,
-                    isSecure: true
-                )
-            }
-            
-            Button(action: {
-                viewModel.register()
-            }) {
-                Group {
-                    if viewModel.isLoading {
-                        ProgressView()
-                    } else {
-                        Text(Constants.Strings.register)
-                            .bold()
-                    }
-                }
-                .frame(maxWidth: .infinity)
-                .padding(Constants.Padding.normal)
-                .background(Constants.Colors.primaryColor)
-                .foregroundColor(Constants.Colors.buttonTextColor)
-                .cornerRadius(Constants.CornerRadius.normal)
-            }
-            .disabled(viewModel.isLoading || viewModel.username.isEmpty || viewModel.password.isEmpty)
-            .opacity((viewModel.isLoading || viewModel.username.isEmpty || viewModel.password.isEmpty) ? 0.6 : 1.0)
+            title
+            inputFields
+            registerButton
             Spacer()
         }
         .padding(.top, Constants.Padding.extraLarge)
@@ -59,5 +27,48 @@ struct RegistrationView: View {
         } message: {
             Text(viewModel.errorMessage ?? "")
         }
+    }
+    
+    
+    private var registerButton: some View {
+        Button(action: {
+            viewModel.register()
+        }) {
+            Group {
+                if viewModel.isLoading {
+                    ProgressView()
+                } else {
+                    Text(Constants.Strings.register)
+                        .bold()
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(Constants.Padding.normal)
+            .background(Constants.Colors.primaryColor)
+            .foregroundColor(Constants.Colors.buttonTextColor)
+            .cornerRadius(Constants.CornerRadius.normal)
+        }
+        .disabled(viewModel.isLoading || viewModel.username.isEmpty || viewModel.password.isEmpty)
+        .opacity((viewModel.isLoading || viewModel.username.isEmpty || viewModel.password.isEmpty) ? 0.6 : 1.0)
+    }
+    
+    private var inputFields: some View {
+        VStack(spacing: Constants.Padding.normal) {
+            InputField(
+                placeholder: Constants.Strings.usernamePlaceholder,
+                text: $viewModel.username
+            )
+            
+            InputField(
+                placeholder: Constants.Strings.passwordPlaceholder,
+                text: $viewModel.password,
+                isSecure: true
+            )
+        }
+    }
+    
+    private var title: some View {
+        Text(Constants.Strings.createAccount)
+            .font(.system(size: Constants.Fonts.extraLarge))
     }
 }

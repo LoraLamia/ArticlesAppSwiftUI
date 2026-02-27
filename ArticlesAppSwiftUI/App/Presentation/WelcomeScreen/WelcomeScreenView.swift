@@ -14,44 +14,56 @@ struct WelcomeScreenView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Spacer()
-                Image(systemName: Constants.Icons.listName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: Constants.Height.extraLarge)
-                Spacer()
-                Text(Constants.Strings.welcomeMessage)
-                    .font(.system(size: Constants.Fonts.extraLarge))
-                    .multilineTextAlignment(.center)
-                Spacer()
-                Text(Constants.Strings.newUser)
-                NavigationLink(
-                    destination: RegistrationView(
-                        viewModel: RegistrationViewModel(userUseCase: container.userUseCase, session: session)
-                    )
-                ) {
-                    Text(Constants.Strings.signUp)
-                        .foregroundStyle(Constants.Colors.primaryColor)
-                        .underline()
-                }
-                Spacer()
-                Text(Constants.Strings.existingUser)
-                NavigationLink(
-                    destination: LoginView(
-                        viewModel: LoginViewModel(userUseCase: container.userUseCase, session: session)
-                    )
-                ) {
-                    Text(Constants.Strings.signIn)
-                        .foregroundStyle(Constants.Colors.primaryColor)
-                        .underline()
-                }
-                Spacer()
+                welcomeHeader
+                signUpSection
+                signInSection
             }
             .padding(.horizontal, Constants.Padding.large)
         }
     }
+    
+    @ViewBuilder private var welcomeHeader: some View {
+        Spacer()
+        Image(systemName: Constants.Icons.listName)
+            .resizable()
+            .scaledToFit()
+            .frame(height: Constants.Height.extraLarge)
+        Spacer()
+        Text(Constants.Strings.welcomeMessage)
+            .font(.system(size: Constants.Fonts.extraLarge))
+            .multilineTextAlignment(.center)
+        Spacer()
+    }
+    
+    @ViewBuilder private var signUpSection: some View {
+        Text(Constants.Strings.newUser)
+        NavigationLink(
+            destination: RegistrationView(
+                viewModel: RegistrationViewModel(userUseCase: container.userUseCase, session: session)
+            )
+        ) {
+            Text(Constants.Strings.signUp)
+                .foregroundStyle(Constants.Colors.primaryColor)
+                .underline()
+        }
+        Spacer()
+    }
+    
+    @ViewBuilder private var signInSection: some View {
+        Text(Constants.Strings.existingUser)
+        NavigationLink(
+            destination: LoginView(
+                viewModel: LoginViewModel(userUseCase: container.userUseCase, session: session)
+            )
+        ) {
+            Text(Constants.Strings.signIn)
+                .foregroundStyle(Constants.Colors.primaryColor)
+                .underline()
+        }
+        Spacer()
+    }
 }
 
-//#Preview {
-//    WelcomeScreenView(container: DependencyContainer())
-//}
+#Preview {
+    WelcomeScreenView()
+}
