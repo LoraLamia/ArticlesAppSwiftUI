@@ -60,12 +60,6 @@ class AllArticlesViewModel {
     }
     
     func toggleFavorite(article: Article) {
-        if favoriteIDs.contains(article.id) {
-            favoriteIDs.remove(article.id)
-        } else {
-            favoriteIDs.insert(article.id)
-        }
-        
         articleUseCase
             .toggleFavorite(articleId: article.id)
             .receive(on: DispatchQueue.main)
