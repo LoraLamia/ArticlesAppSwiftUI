@@ -76,20 +76,19 @@ class AllArticlesViewModel {
     }
     
     private func bind() {
-        getArticles()
-        getTopics()
+        topicsAndArticlesCombined()
         getFavorites()
     }
     
-    func getArticles() {
+    private func topicsAndArticlesCombined() {
         isLoading = true
         errorMessage = nil
         
         articleUseCase.getArticles(page: 1)
+            .combineLatest(articleUseCase.getTopics())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self else { return }
-                self.isLoading = false
                 
                 if case .failure(let error) = completion {
                     if case DomainError.unauthorized = error {
@@ -98,27 +97,11 @@ class AllArticlesViewModel {
                         self.errorMessage = error.localizedDescription
                     }
                 }
-            } receiveValue: { [weak self] articles in
-                self?.articles = articles
-            }
-            .store(in: &cancellables)
-    }
-    
-    func getTopics() {
-        isLoading = true
-        errorMessage = nil
-
-        articleUseCase.getTopics()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self else { return }
                 self.isLoading = false
-                
-                if case .failure(let error) = completion {
-                    self.errorMessage = error.localizedDescription
-                }
-            } receiveValue: { [weak self] topics in
-                self?.topics = topics
+            } receiveValue: { [weak self] (articles, topics) in
+                guard let self else { return }
+                self.articles = articles
+                self.topics = topics
             }
             .store(in: &cancellables)
     }
