@@ -6,9 +6,9 @@
 //
 
 import Alamofire
+import Foundation
 
 enum ArticlesEndpoint {
-    
     case articles(page: Int)
     case topics
     case article(id: String)
@@ -24,31 +24,24 @@ enum ArticlesEndpoint {
         }
     }
     
-    var parameters: Parameters? {
+    var queryItems: [URLQueryItem]? {
         switch self {
         case .articles(let page):
             return [
-                "page": "\(page)",
-                "pageSize": "20",
-                "sort": "-1"
+                URLQueryItem(name: "page", value: "\(page)"),
+                URLQueryItem(name: "pageSize", value: "20"),
+                URLQueryItem(name: "sort", value: "-1")
             ]
         case .topics, .article:
             return nil
         }
     }
     
-    var headers: HTTPHeaders? {
-        switch self {
-        case .articles, .topics, .article:
-            guard let token = KeychainManager.getToken() else { return nil }
-            return ["Authorization": "Bearer \(token)"]
-        }
+    var method: String {
+        "GET"
     }
     
-    var method: HTTPMethod {
-        switch self {
-        case .articles, .topics, .article:
-            return .get
-        }
+    var requiresAuth: Bool {
+        true
     }
 }

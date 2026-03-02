@@ -34,9 +34,9 @@ struct LoginView: View {
     }
     
     private var loginButton: some View {
-        Button(action: {
+        Button {
             viewModel.login()
-        }) {
+        } label: {
             Group {
                 if viewModel.isLoading {
                     ProgressView()
@@ -48,11 +48,11 @@ struct LoginView: View {
             .frame(maxWidth: .infinity)
             .padding(Constants.Padding.normal)
             .background(Constants.Colors.primaryColor)
-            .foregroundColor(Constants.Colors.buttonTextColor)
+            .foregroundStyle(Constants.Colors.buttonTextColor)
             .cornerRadius(Constants.CornerRadius.normal)
         }
-        .disabled(viewModel.isLoading || viewModel.username.isEmpty || viewModel.password.isEmpty)
-        .opacity((viewModel.isLoading || viewModel.username.isEmpty || viewModel.password.isEmpty) ? 0.6 : 1.0)
+        .disabled(viewModel.isLoginDisabled)
+        .opacity(viewModel.isLoginDisabled ? 0.6 : 1.0)
     }
     
     private var inputFields: some View {

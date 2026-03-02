@@ -17,10 +17,11 @@ final class UserUseCase: UserUseCaseRegistration, UserUseCaseLogin {
         self.sessionManager = sessionManager
     }
     
-    func register(username: String, password: String) -> AnyPublisher<Void, Error> {
+    func register(username: String, password: String) -> AnyPublisher<Void, DomainError> {
         userRepository
             .registerUser(username: username, password: password)
-            .handleEvents(receiveOutput: { userData in
+            .handleEvents(receiveOutput: { [weak self] userData in
+                guard let self else { return }
                 self.sessionManager.login(with: userData)
             })
             .map { _ in }
@@ -28,10 +29,11 @@ final class UserUseCase: UserUseCaseRegistration, UserUseCaseLogin {
         
     }
     
-    func login(username: String, password: String) -> AnyPublisher<Void, Error> {
+    func login(username: String, password: String) -> AnyPublisher<Void, DomainError> {
         userRepository
             .loginUser(username: username, password: password)
-            .handleEvents(receiveOutput: { userData in
+            .handleEvents(receiveOutput: { [weak self] userData in
+                guard let self else { return }
                 self.sessionManager.login(with: userData)
             })
             .map { _ in }

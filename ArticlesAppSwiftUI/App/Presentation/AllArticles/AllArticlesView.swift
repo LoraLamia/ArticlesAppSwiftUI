@@ -11,22 +11,29 @@ struct AllArticlesView: View {
     @State var viewModel: AllArticlesViewModel
 
     var body: some View {
+        if viewModel.isLoading {
+            loadingView
+        } else {
+            contentView
+        }
+    }
+    
+    private var contentView: some View {
         VStack {
             searchBar
             topicsList
             articlesList
         }
-        .overlay {
-            if viewModel.isLoading {
-                ZStack {
-                    Color.black.opacity(0.7)
-                        .ignoresSafeArea()
-                    
-                    ProgressView()
-                        .scaleEffect(1.5)
-                        .progressViewStyle(.circular)
-                }
-            }
+    }
+    
+    private var loadingView: some View {
+        ZStack {
+            Color.black.opacity(0.7)
+                .ignoresSafeArea()
+
+            ProgressView()
+                .scaleEffect(1.5)
+                .progressViewStyle(.circular)
         }
     }
     
@@ -51,14 +58,14 @@ struct AllArticlesView: View {
             HStack(spacing: Constants.Spacing.small) {
                 
                 TopicCellView(
-                    callback: { viewModel.selectedTopic = nil },
+                    action: { viewModel.selectedTopic = nil },
                     topic: Constants.Strings.allArticles,
                     isSelected: viewModel.selectedTopic == nil
                 )
                 
                 ForEach(viewModel.topics, id: \.self) { topic in
                     TopicCellView(
-                        callback: { viewModel.selectedTopic = topic },
+                        action: { viewModel.selectedTopic = topic },
                         topic: topic,
                         isSelected: viewModel.selectedTopic == topic
                     )

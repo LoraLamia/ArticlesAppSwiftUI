@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Alamofire
 
 final class UserRepository: UserRepositoryContract {
     private let remote: UserRemoteDataSourceContract
@@ -13,20 +14,22 @@ final class UserRepository: UserRepositoryContract {
     init(remote: UserRemoteDataSourceContract) {
         self.remote = remote
     }
-    
-    //get user funkcija koja zove getarticles
-    
-    func registerUser(username: String, password: String) -> AnyPublisher<UserData, Error> {
+        
+    func registerUser(username: String, password: String) -> AnyPublisher<UserData, DomainError> {
         remote.registerUser(username: username, password: password)
             .map { UserData(username: "john doe", accessToken: $0.accessToken) }
-            .mapError { $0 as Error }
+            .mapError { error -> DomainError in
+                return DomainError.network(error)
+            }
             .eraseToAnyPublisher()
     }
     
-    func loginUser(username: String, password: String) -> AnyPublisher<UserData, Error> {
+    func loginUser(username: String, password: String) -> AnyPublisher<UserData, DomainError> {
         remote.loginUser(username: username, password: password)
             .map { UserData(username: "john doe", accessToken: $0.accessToken) }
-            .mapError { $0 as Error }
+            .mapError { error -> DomainError in
+                return DomainError.network(error)
+            }
             .eraseToAnyPublisher()
     }
 }

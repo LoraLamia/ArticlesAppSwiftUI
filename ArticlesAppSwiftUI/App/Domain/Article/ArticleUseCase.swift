@@ -16,19 +16,19 @@ final class ArticleUseCase: ArticleUseCaseAllArticles, ArticleUseCaseFavorites, 
     
     // MARK: Remote
     
-    func getArticles(page: Int) -> AnyPublisher<[Article], Error> {
+    func getArticles(page: Int) -> AnyPublisher<[Article], DomainError> {
         repository.fetchArticles(page: page)
     }
     
-    func getTopics() -> AnyPublisher<[String], Error> {
+    func getTopics() -> AnyPublisher<[String], DomainError> {
         repository.fetchTopics()
     }
     
-    func getUser() -> AnyPublisher<[Article], any Error> {
+    func getUser() -> AnyPublisher<[Article], DomainError> {
         repository.fetchArticles(page: 1)
     }
     
-    func getArticle(id: String) -> AnyPublisher<Article, Error> {
+    func getArticle(id: String) -> AnyPublisher<Article, DomainError> {
         repository.fetchArticle(id: id)
             .compactMap { $0.first }
             .eraseToAnyPublisher()
@@ -41,6 +41,6 @@ final class ArticleUseCase: ArticleUseCaseAllArticles, ArticleUseCaseFavorites, 
     }
     
     func getFavoriteIDs() -> AnyPublisher<[String], Never> {
-        repository.loadFavoriteIDs()
+        repository.getFavoriteIDs()
     }
 }

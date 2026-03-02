@@ -21,7 +21,7 @@ struct SearchBar: View {
                     text = ""
                 } label: {
                     Image(systemName: Constants.Icons.xMarkName)
-                        .foregroundColor(Constants.Colors.xMarkIconColor)
+                        .foregroundStyle(Constants.Colors.xMarkIconColor)
                 }
             }
         }

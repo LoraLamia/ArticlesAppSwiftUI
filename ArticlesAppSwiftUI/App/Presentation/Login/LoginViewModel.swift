@@ -15,6 +15,10 @@ class LoginViewModel {
     
     private var cancellables = Set<AnyCancellable>()
     
+    var isLoginDisabled: Bool {
+        isLoading || username.isEmpty || password.isEmpty
+    }
+    
     var username = ""
     var password = ""
     var isLoading = false

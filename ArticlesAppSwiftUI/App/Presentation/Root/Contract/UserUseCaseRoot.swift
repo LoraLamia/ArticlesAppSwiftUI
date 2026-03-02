@@ -8,6 +8,6 @@
 import Combine
 
 protocol UserUseCaseRoot {
-    func getUser() -> AnyPublisher<[Article], Error>
+    func getUser() -> AnyPublisher<[Article], DomainError>
 }
 

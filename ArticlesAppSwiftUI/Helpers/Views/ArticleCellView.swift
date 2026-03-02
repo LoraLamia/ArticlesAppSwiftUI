@@ -32,11 +32,9 @@ struct ArticleCellView: View {
     }
     
     private var titleSection: some View {
-        HStack {
-            Text(article.title)
-                .font(.system(size: Constants.Fonts.large, weight: .bold))
-            Spacer()
-        }
+        Text(article.title)
+            .font(.system(size: Constants.Fonts.large, weight: .bold))
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
     
     private var metaSection: some View {
@@ -44,7 +42,7 @@ struct ArticleCellView: View {
             Text(article.author)
                 .font(.system(size: Constants.Fonts.normal))
                 .foregroundStyle(Constants.Colors.authorAndDateTextColor)
-
+            
             Spacer()
             Text(article.publishedAt, format: .dateTime
                 .month(.abbreviated)
@@ -59,21 +57,17 @@ struct ArticleCellView: View {
     }
     
     private var summarySection: some View {
-        HStack {
-            Text(article.summary)
-                .font(.system(size: Constants.Fonts.extraSmall))
-                .foregroundStyle(Constants.Colors.summaryTextColor)
-            Spacer()
-        }
+        Text(article.summary)
+            .font(.system(size: Constants.Fonts.extraSmall))
+            .foregroundStyle(Constants.Colors.summaryTextColor)
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
     
     private var topicAndTagsSection: some View {
-        HStack {
-            Text("Topic: \(article.topic) Tags: \(article.tags.joined(separator: ", "))")
-                .font(.system(size: Constants.Fonts.small))
-                .foregroundStyle(Constants.Colors.primaryColor)
-            Spacer()
-        }
+        Text("Topic: \(article.topic) Tags: \(article.tags.joined(separator: ", "))")
+            .font(.system(size: Constants.Fonts.small))
+            .foregroundStyle(Constants.Colors.primaryColor)
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
     
     private var favoriteButton: some View {

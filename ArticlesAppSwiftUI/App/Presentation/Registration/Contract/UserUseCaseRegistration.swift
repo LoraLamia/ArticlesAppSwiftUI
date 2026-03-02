@@ -8,6 +8,6 @@
 import Combine
 
 protocol UserUseCaseRegistration {
-    func register(username: String, password: String) -> AnyPublisher<Void, Error>
+    func register(username: String, password: String) -> AnyPublisher<Void, DomainError>
 }
 

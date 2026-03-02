@@ -9,12 +9,12 @@ import Combine
 
 protocol ArticleRepositoryContract {
     // MARK: Remote
-    func fetchArticles(page: Int) -> AnyPublisher<[Article], Error>
-    func fetchTopics() -> AnyPublisher<[String], Error>
-    func fetchArticle(id: String) -> AnyPublisher<[Article], Error>
+    func fetchArticles(page: Int) -> AnyPublisher<[Article], DomainError>
+    func fetchTopics() -> AnyPublisher<[String], DomainError>
+    func fetchArticle(id: String) -> AnyPublisher<[Article], DomainError>
     
     // MARK: Local
     func toggleFavorite(articleId: String) -> AnyPublisher<Bool, Never>
-    func loadFavoriteIDs() -> AnyPublisher<[String], Never>
+    func getFavoriteIDs() -> AnyPublisher<[String], Never>
 }
 

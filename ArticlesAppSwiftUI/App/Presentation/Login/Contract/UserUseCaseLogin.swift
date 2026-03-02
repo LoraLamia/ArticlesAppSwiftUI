@@ -8,6 +8,6 @@
 import Combine
 
 protocol UserUseCaseLogin {
-    func login(username: String, password: String) -> AnyPublisher<Void, Error>
+    func login(username: String, password: String) -> AnyPublisher<Void, DomainError>
 }
 

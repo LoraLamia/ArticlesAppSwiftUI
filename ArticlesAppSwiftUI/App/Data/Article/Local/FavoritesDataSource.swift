@@ -1,5 +1,5 @@
 //
-//  FavoriteArticlesDataSource.swift
+//  FavoritesDataSource.swift
 //  ArticlesAppSwiftUI
 //
 //  Created by Lora Zubić on 24.02.2026..
@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-final class FavoriteArticlesDataSource {
+final class FavoritesDataSource: FavoritesDataSourceContract {
     private let favoritesKey = Constants.UserDefaults.favoritesKey
     private let favoritesSubject: CurrentValueSubject<[String], Never>
     
@@ -44,7 +44,7 @@ final class FavoriteArticlesDataSource {
             .eraseToAnyPublisher()
     }
     
-    func loadFavorites() -> AnyPublisher<[String], Never> {
+    func getFavorites() -> AnyPublisher<[String], Never> {
         favoritesSubject
             .eraseToAnyPublisher()
     }

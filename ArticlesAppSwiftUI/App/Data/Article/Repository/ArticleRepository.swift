@@ -7,56 +7,67 @@
 
 import Combine
 import Alamofire
+import Foundation
 
 final class ArticleRepository: ArticleRepositoryContract {
-    private let remote: ArticleDataSourceContract
-    private let local: FavoriteArticlesDataSource
+    private let articlesDataSource: ArticlesDataSourceContract
+    private let favoritesDataSource: FavoritesDataSourceContract
     
-    init(remote: ArticleDataSourceContract, local: FavoriteArticlesDataSource) {
-        self.remote = remote
-        self.local = local
+    init(articlesDataSource: ArticlesDataSourceContract, favoritesDataSource: FavoritesDataSourceContract) {
+        self.articlesDataSource = articlesDataSource
+        self.favoritesDataSource = favoritesDataSource
     }
     
     // MARK: Remote
     
-    func fetchArticles(page: Int) -> AnyPublisher<[Article], Error> {
-        remote.fetchArticles(page: page)
-            .mapError { error -> Error in
-                if error.responseCode == 401 {
-                    return DomainError.unauthorized
+    func fetchArticles(page: Int) -> AnyPublisher<[Article], DomainError> {
+        articlesDataSource.fetchArticles(page: page)
+            .mapError { error -> DomainError in
+                let nsError = error as NSError
+                
+                if nsError.domain == "HTTPError", nsError.code == 401 {
+                    return .unauthorized
                 }
                 return DomainError.network(error)
             }
             .eraseToAnyPublisher()
     }
     
-    func fetchTopics() -> AnyPublisher<[String], Error> {
-        remote.fetchTopics()
-            .mapError { $0 as Error }
+    func fetchTopics() -> AnyPublisher<[String], DomainError> {
+        articlesDataSource.fetchTopics()
+            .mapError { error -> DomainError in
+                let nsError = error as NSError
+                
+                if nsError.domain == "HTTPError", nsError.code == 401 {
+                    return .unauthorized
+                }
+                return DomainError.network(error)
+            }
             .eraseToAnyPublisher()
     }
     
-    func fetchArticle(id: String) -> AnyPublisher<[Article], Error> {
-        remote.fetchArticle(id: id)
-            .mapError { $0 as Error }
+    func fetchArticle(id: String) -> AnyPublisher<[Article], DomainError> {
+        articlesDataSource.fetchArticle(id: id)
+            .mapError { error -> DomainError in
+                let nsError = error as NSError
+                
+                if nsError.domain == "HTTPError", nsError.code == 401 {
+                    return .unauthorized
+                }
+                return DomainError.network(error)
+            }
             .eraseToAnyPublisher()
     }
     
     // MARK: Local
     
     func toggleFavorite(articleId: String) -> AnyPublisher<Bool, Never> {
-        local.toggleFavorite(articleId: articleId)
+        favoritesDataSource.toggleFavorite(articleId: articleId)
     }
     
-    func loadFavoriteIDs() -> AnyPublisher<[String], Never> {
-        local.loadFavorites()
+    func getFavoriteIDs() -> AnyPublisher<[String], Never> {
+        favoritesDataSource.getFavorites()
             .eraseToAnyPublisher()
 
     }
-}
-
-enum DomainError: Error {
-    case unauthorized
-    case network(Error)
-    case notFound
 }

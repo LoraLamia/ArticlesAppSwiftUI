@@ -20,6 +20,10 @@ class RegistrationViewModel {
     var errorMessage: String?
     var showErrorMessage = false
     
+    var isRegistrationDisabled: Bool {
+        isLoading || username.isEmpty || password.isEmpty
+    }
+    
     init(userUseCase: UserUseCaseRegistration, session: SessionManager) {
         self.userUseCase = userUseCase
         self.session = session

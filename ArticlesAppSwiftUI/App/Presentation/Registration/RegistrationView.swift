@@ -35,9 +35,9 @@ struct RegistrationView: View {
     
     
     private var registerButton: some View {
-        Button(action: {
+        Button {
             viewModel.register()
-        }) {
+        } label: {
             Group {
                 if viewModel.isLoading {
                     ProgressView()
@@ -49,11 +49,11 @@ struct RegistrationView: View {
             .frame(maxWidth: .infinity)
             .padding(Constants.Padding.normal)
             .background(Constants.Colors.primaryColor)
-            .foregroundColor(Constants.Colors.buttonTextColor)
+            .foregroundStyle(Constants.Colors.buttonTextColor)
             .cornerRadius(Constants.CornerRadius.normal)
         }
-        .disabled(viewModel.isLoading || viewModel.username.isEmpty || viewModel.password.isEmpty)
-        .opacity((viewModel.isLoading || viewModel.username.isEmpty || viewModel.password.isEmpty) ? 0.6 : 1.0)
+        .disabled(viewModel.isRegistrationDisabled)
+        .opacity(viewModel.isRegistrationDisabled ? 0.6 : 1.0)
     }
     
     private var inputFields: some View {

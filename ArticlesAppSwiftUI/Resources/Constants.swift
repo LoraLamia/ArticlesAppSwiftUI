@@ -72,6 +72,7 @@ enum Constants {
         static let small: CGFloat = 10
         static let normal: CGFloat = 16
         static let large: CGFloat = 24
+        static let extraLarge: CGFloat = 50
     }
     
     enum Icons {

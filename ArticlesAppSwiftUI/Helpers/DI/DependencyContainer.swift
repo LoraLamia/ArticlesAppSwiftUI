@@ -9,9 +9,11 @@ import SwiftUI
 
 @Observable
 final class DependencyContainer {
+    private let networkClient: NetworkClientContract
+
     // Article
-    private let remote: ArticleDataSource
-    private let local: FavoriteArticlesDataSource
+    private let articlesDataSource: ArticlesDataSource
+    private let favoritesDataSource: FavoritesDataSource
     
     let articleRepository: ArticleRepository
     let articleUseCase: ArticleUseCase
@@ -24,14 +26,15 @@ final class DependencyContainer {
     
     
     init(sessionManager: SessionManager) {
+        self.networkClient = NetworkClient()
         // Article
-        self.remote = ArticleDataSource()
+        self.articlesDataSource = ArticlesDataSource(client: networkClient)
         
-        self.local = FavoriteArticlesDataSource()
+        self.favoritesDataSource = FavoritesDataSource()
         
         self.articleRepository = ArticleRepository(
-            remote: remote,
-            local: local
+            articlesDataSource: articlesDataSource,
+            favoritesDataSource: favoritesDataSource
         )
         
         self.articleUseCase = ArticleUseCase(

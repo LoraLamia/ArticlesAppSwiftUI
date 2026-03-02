@@ -31,7 +31,7 @@ class FavoritesViewModel {
         articleUseCase
             .getFavoriteIDs()
             .flatMap { [weak self] ids -> AnyPublisher<[Article], Never> in
-                guard let self = self else {
+                guard let self else {
                     return Just([]).eraseToAnyPublisher()
                 }
                                 

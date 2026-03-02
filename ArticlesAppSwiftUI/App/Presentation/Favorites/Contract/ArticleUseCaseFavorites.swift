@@ -10,6 +10,6 @@ import Combine
 protocol ArticleUseCaseFavorites {
     func getFavoriteIDs() -> AnyPublisher<[String], Never>
     func toggleFavorite(articleId: String) -> AnyPublisher<Bool, Never>
-    func getArticle(id: String) -> AnyPublisher<Article, Error>
+    func getArticle(id: String) -> AnyPublisher<Article, DomainError>
 }
 

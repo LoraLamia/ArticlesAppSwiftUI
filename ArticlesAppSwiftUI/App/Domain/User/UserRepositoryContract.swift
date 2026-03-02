@@ -8,6 +8,6 @@
 import Combine
 
 protocol UserRepositoryContract {
-    func registerUser(username: String, password: String) -> AnyPublisher<UserData, Error>
-    func loginUser(username: String, password: String) -> AnyPublisher<UserData, Error>
+    func registerUser(username: String, password: String) -> AnyPublisher<UserData, DomainError>
+    func loginUser(username: String, password: String) -> AnyPublisher<UserData, DomainError>
 }
