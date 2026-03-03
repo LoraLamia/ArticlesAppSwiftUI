@@ -11,6 +11,7 @@ import Foundation
 @Observable
 class AllArticlesViewModel {
     private let articleUseCase: ArticleUseCaseAllArticles
+    private let session: SessionManager
     private var cancellables = Set<AnyCancellable>()
     
     var articles: [Article] = []
@@ -48,8 +49,9 @@ class AllArticlesViewModel {
         }
     }
     
-    init(articleUseCase: ArticleUseCaseAllArticles) {
+    init(articleUseCase: ArticleUseCaseAllArticles, session: SessionManager) {
         self.articleUseCase = articleUseCase
+        self.session = session
         bind()
     }
     
@@ -59,7 +61,8 @@ class AllArticlesViewModel {
     
     func toggleFavorite(article: Article) {
         articleUseCase
-            .toggleFavorite(article: article)
+            .toggleFavorite(articleId: article.id)
+            .receive(on: DispatchQueue.main)
             .sink { _ in }
             .store(in: &cancellables)
     }
@@ -73,56 +76,42 @@ class AllArticlesViewModel {
     }
     
     private func bind() {
-        getArticles()
-        getTopics()
+        topicsAndArticlesCombined()
         getFavorites()
     }
     
-    func getArticles() {
+    private func topicsAndArticlesCombined() {
         isLoading = true
         errorMessage = nil
         
         articleUseCase.getArticles(page: 1)
+            .combineLatest(articleUseCase.getTopics())
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self else { return }
-                self.isLoading = false
                 
                 if case .failure(let error) = completion {
-                    self.errorMessage = error.localizedDescription
+                    if case DomainError.unauthorized = error {
+                        session.logout()
+                    } else {
+                        self.errorMessage = error.localizedDescription
+                    }
                 }
-            } receiveValue: { [weak self] articles in
-                self?.articles = articles
-            }
-            .store(in: &cancellables)
-    }
-    
-    func getTopics() {
-        isLoading = true
-        errorMessage = nil
-        
-        articleUseCase.getTopics()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
+                self.isLoading = false
+            } receiveValue: { [weak self] (articles, topics) in
                 guard let self else { return }
-                self.isLoading = false
-                
-                if case .failure(let error) = completion {
-                    self.errorMessage = error.localizedDescription
-                }
-            } receiveValue: { [weak self] topics in
-                self?.topics = topics
+                self.articles = articles
+                self.topics = topics
             }
             .store(in: &cancellables)
     }
     
     func getFavorites() {
         articleUseCase
-            .getFavorites()
-            .map { Set($0.map { $0.id }) }
+            .getFavoriteIDs()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] ids in
-                self?.favoriteIDs = ids
+                self?.favoriteIDs = Set(ids)
             }
             .store(in: &cancellables)
     }

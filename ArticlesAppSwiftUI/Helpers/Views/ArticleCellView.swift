@@ -14,53 +14,71 @@ struct ArticleCellView: View {
     
     var body: some View {
         HStack(spacing: Constants.Spacing.normal) {
-            VStack(spacing: Constants.Spacing.extraSmall) {
-                HStack {
-                    Text(article.title)
-                        .font(.system(size: Constants.Fonts.large, weight: .bold))
-                    Spacer()
-                }
-                HStack {
-                    Text(article.author)
-                        .font(.system(size: Constants.Fonts.normal))
-                        .foregroundStyle(Constants.Colors.authorAndDateTextColor)
-
-                    Spacer()
-                    Text(article.publishedAt, format: .dateTime
-                        .month(.abbreviated)
-                        .day()
-                        .year()
-                        .hour()
-                        .minute()
-                    )
-                    .font(.system(size: Constants.Fonts.small))
-                    .foregroundStyle(Constants.Colors.authorAndDateTextColor)
-                }
-                HStack {
-                    Text(article.summary)
-                        .font(.system(size: Constants.Fonts.extraSmall))
-                        .foregroundStyle(Constants.Colors.summaryTextColor)
-                    Spacer()
-                }
-                HStack {
-                    Text("Topic: \(article.topic) Tags: \(article.tags.joined(separator: ", "))")
-                        .font(.system(size: Constants.Fonts.small))
-                        .foregroundStyle(Constants.Colors.topicAndTagsTextColor)
-                    Spacer()
-                }
-            }
-            Button {
-                onFavoriteTap()
-            } label: {
-                Image(systemName: isFavorite ? Constants.Icons.favoriteIconName : Constants.Icons.unfavoriteIconName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: Constants.Height.normal)
-                    .foregroundStyle(Constants.Colors.favoriteIconColor)
-            }
+            contentSection
+            favoriteButton
         }
         .padding()
         .background(Constants.Colors.cellBackgroundColor)
         .shadow(radius: 6)
+    }
+    
+    private var contentSection: some View {
+        VStack(spacing: Constants.Spacing.extraSmall) {
+            titleSection
+            metaSection
+            summarySection
+            topicAndTagsSection
+        }
+    }
+    
+    private var titleSection: some View {
+        Text(article.title)
+            .font(.system(size: Constants.Fonts.large, weight: .bold))
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    private var metaSection: some View {
+        HStack {
+            Text(article.author)
+                .font(.system(size: Constants.Fonts.normal))
+                .foregroundStyle(Constants.Colors.authorAndDateTextColor)
+            
+            Spacer()
+            Text(article.publishedAt, format: .dateTime
+                .month(.abbreviated)
+                .day()
+                .year()
+                .hour()
+                .minute()
+            )
+            .font(.system(size: Constants.Fonts.small))
+            .foregroundStyle(Constants.Colors.authorAndDateTextColor)
+        }
+    }
+    
+    private var summarySection: some View {
+        Text(article.summary)
+            .font(.system(size: Constants.Fonts.extraSmall))
+            .foregroundStyle(Constants.Colors.summaryTextColor)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    private var topicAndTagsSection: some View {
+        Text("Topic: \(article.topic) Tags: \(article.tags.joined(separator: ", "))")
+            .font(.system(size: Constants.Fonts.small))
+            .foregroundStyle(Constants.Colors.primaryColor)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+    
+    private var favoriteButton: some View {
+        Button {
+            onFavoriteTap()
+        } label: {
+            Image(systemName: isFavorite ? Constants.Icons.favoriteIconName : Constants.Icons.unfavoriteIconName)
+                .resizable()
+                .scaledToFit()
+                .frame(height: Constants.Height.normal)
+                .foregroundStyle(Constants.Colors.primaryColor)
+        }
     }
 }

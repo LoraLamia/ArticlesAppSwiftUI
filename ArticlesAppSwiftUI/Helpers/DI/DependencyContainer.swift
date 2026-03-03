@@ -7,16 +7,50 @@
 
 import SwiftUI
 
+@Observable
 final class DependencyContainer {
-    
-    // Data sources
-    private let remote = RemoteDataSource()
-    private let local = LocalDataSource()
-    
-    // Repository
-    lazy var articleRepository = ArticleRepository(remote: remote, local: local)
-    
-    // Use cases
-    lazy var articleUseCase = ArticleUseCase(repository: articleRepository)
-}
+    private let networkClient: NetworkClientContract
 
+    // Article
+    private let articlesDataSource: ArticlesDataSource
+    private let favoritesDataSource: FavoritesDataSource
+    
+    let articleRepository: ArticleRepository
+    let articleUseCase: ArticleUseCase
+    
+    // User
+    private let userRemote: UserRemoteDataSource
+    
+    let userRepository: UserRepository
+    let userUseCase: UserUseCase
+    
+    
+    init(sessionManager: SessionManager) {
+        self.networkClient = NetworkClient()
+        // Article
+        self.articlesDataSource = ArticlesDataSource(client: networkClient)
+        
+        self.favoritesDataSource = FavoritesDataSource()
+        
+        self.articleRepository = ArticleRepository(
+            articlesDataSource: articlesDataSource,
+            favoritesDataSource: favoritesDataSource
+        )
+        
+        self.articleUseCase = ArticleUseCase(
+            repository: articleRepository
+        )
+        
+        // User
+        self.userRemote = UserRemoteDataSource(client: networkClient)
+        
+        self.userRepository = UserRepository(
+            remote: userRemote
+        )
+        
+        self.userUseCase = UserUseCase(
+            userRepository: userRepository,
+            sessionManager: sessionManager
+        )
+    }
+}

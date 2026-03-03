@@ -7,6 +7,7 @@
 
 import Foundation
 
+nonisolated
 struct Article: Codable, Identifiable {
     let id: String
     let title: String
@@ -14,9 +15,6 @@ struct Article: Codable, Identifiable {
     let author: String
     let topic: String
     let tags: [String]
-
-    // What if this property had some extra long and unnecessary name, like date_of_article_publishing,
-    // but we still wanted to have it in our structure as publishedAt?
     let publishedAt: Date
 }
 

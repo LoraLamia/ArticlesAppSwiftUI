@@ -11,10 +11,29 @@ struct AllArticlesView: View {
     @State var viewModel: AllArticlesViewModel
 
     var body: some View {
+        if viewModel.isLoading {
+            loadingView
+        } else {
+            contentView
+        }
+    }
+    
+    private var contentView: some View {
         VStack {
             searchBar
             topicsList
             articlesList
+        }
+    }
+    
+    private var loadingView: some View {
+        ZStack {
+            Color.black.opacity(0.7)
+                .ignoresSafeArea()
+
+            ProgressView()
+                .scaleEffect(1.5)
+                .progressViewStyle(.circular)
         }
     }
     
@@ -38,28 +57,18 @@ struct AllArticlesView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: Constants.Spacing.small) {
                 
-                Button {
-                    viewModel.selectedTopic = nil
-                } label: {
-                    Text(Constants.Strings.allArticles)
-                        .padding(.horizontal, Constants.Padding.small)
-                        .padding(.vertical, Constants.Padding.extraSmall)
-                        .background(viewModel.selectedTopic == nil ? Constants.Colors.topicCellSelectedColor : Constants.Colors.topicCellUnselectedColor)
-                        .foregroundColor(viewModel.selectedTopic == nil ? Constants.Colors.topicCellTextSelectedColor : Constants.Colors.topicCellTextUnselectedColor)
-                        .cornerRadius(Constants.CornerRadius.normal)
-                }
+                TopicCellView(
+                    action: { viewModel.selectedTopic = nil },
+                    topic: Constants.Strings.allArticles,
+                    isSelected: viewModel.selectedTopic == nil
+                )
                 
                 ForEach(viewModel.topics, id: \.self) { topic in
-                    Button {
-                        viewModel.selectedTopic = topic
-                    } label: {
-                        Text(topic)
-                            .padding(.horizontal, Constants.Padding.small)
-                            .padding(.vertical, Constants.Padding.extraSmall)
-                            .background(viewModel.selectedTopic == topic ? Constants.Colors.topicCellSelectedColor : Constants.Colors.topicCellUnselectedColor)
-                            .foregroundColor(viewModel.selectedTopic == topic ? Constants.Colors.topicCellTextSelectedColor : Constants.Colors.topicCellTextUnselectedColor)
-                            .cornerRadius(Constants.CornerRadius.normal)
-                    }
+                    TopicCellView(
+                        action: { viewModel.selectedTopic = topic },
+                        topic: topic,
+                        isSelected: viewModel.selectedTopic == topic
+                    )
                 }
             }
             .padding(.horizontal, Constants.Padding.small)
