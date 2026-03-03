@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct ArticlesAppSwiftUIApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     private let session = SessionManager()
     private var container: DependencyContainer
     
