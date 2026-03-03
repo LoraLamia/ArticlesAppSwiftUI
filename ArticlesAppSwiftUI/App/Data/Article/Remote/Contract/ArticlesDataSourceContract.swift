@@ -6,7 +6,6 @@
 //
 
 import Combine
-import Alamofire
 
 protocol ArticlesDataSourceContract {
     func fetchArticles(page: Int) -> AnyPublisher<[Article], Error>

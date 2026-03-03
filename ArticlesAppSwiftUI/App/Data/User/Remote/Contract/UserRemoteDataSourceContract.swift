@@ -6,10 +6,9 @@
 //
 
 import Combine
-import Alamofire
 
 protocol UserRemoteDataSourceContract {
-    func registerUser(username: String, password: String) -> AnyPublisher<UserResponse, AFError>
-    func loginUser(username: String, password: String) -> AnyPublisher<UserResponse, AFError>
+    func registerUser(username: String, password: String) -> AnyPublisher<UserResponse, Error>
+    func loginUser(username: String, password: String) -> AnyPublisher<UserResponse, Error>
 }
 

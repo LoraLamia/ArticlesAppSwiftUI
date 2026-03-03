@@ -8,6 +8,6 @@
 import Combine
 
 protocol NetworkClientContract {
-    func request<T>(_ endpoint: ArticlesEndpoint, responseType: T.Type) -> AnyPublisher<T, Error> where T : Decodable
+    func request<T>(_ endpoint: Endpoint, responseType: T.Type) -> AnyPublisher<T, Error> where T : Decodable
 }
 

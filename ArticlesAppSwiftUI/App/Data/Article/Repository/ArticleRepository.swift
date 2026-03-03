@@ -6,7 +6,6 @@
 //
 
 import Combine
-import Alamofire
 import Foundation
 
 final class ArticleRepository: ArticleRepositoryContract {
@@ -25,7 +24,7 @@ final class ArticleRepository: ArticleRepositoryContract {
             .mapError { error -> DomainError in
                 let nsError = error as NSError
                 
-                if nsError.domain == "HTTPError", nsError.code == 401 {
+                if nsError.code == 401 {
                     return .unauthorized
                 }
                 return DomainError.network(error)
@@ -38,7 +37,7 @@ final class ArticleRepository: ArticleRepositoryContract {
             .mapError { error -> DomainError in
                 let nsError = error as NSError
                 
-                if nsError.domain == "HTTPError", nsError.code == 401 {
+                if nsError.code == 401 {
                     return .unauthorized
                 }
                 return DomainError.network(error)
@@ -51,7 +50,7 @@ final class ArticleRepository: ArticleRepositoryContract {
             .mapError { error -> DomainError in
                 let nsError = error as NSError
                 
-                if nsError.domain == "HTTPError", nsError.code == 401 {
+                if nsError.code == 401 {
                     return .unauthorized
                 }
                 return DomainError.network(error)

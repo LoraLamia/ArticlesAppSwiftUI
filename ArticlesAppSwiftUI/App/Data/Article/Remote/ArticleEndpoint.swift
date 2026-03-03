@@ -5,10 +5,9 @@
 //  Created by Lora Zubić on 27.02.2026..
 //
 
-import Alamofire
 import Foundation
 
-enum ArticlesEndpoint {
+enum ArticlesEndpoint: Endpoint {
     case articles(page: Int)
     case topics
     case article(id: String)
@@ -38,10 +37,47 @@ enum ArticlesEndpoint {
     }
     
     var method: String {
-        "GET"
+        switch self {
+        case .articles, .topics, .article:
+            return "GET"
+        }
     }
     
     var requiresAuth: Bool {
-        true
+        switch self {
+            case .articles, .topics, .article:
+                return true
+        }
+    }
+    
+    var body: [String: Any] {
+        switch self {
+        case .articles, .topics, .article:
+            return [:]
+        }
+    }
+    
+    func setUpURLRequest() throws -> URLRequest {
+        var components = URLComponents(
+            string: Constants.API.baseURL + path
+        )
+        
+        components?.queryItems = queryItems
+        
+        guard let url = components?.url else {
+            throw URLError(.badURL)
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = method
+                
+        if requiresAuth {
+            guard let token = KeychainManager.getToken() else {
+                throw URLError(.userAuthenticationRequired)
+            }
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        }
+        
+        return request
     }
 }

@@ -6,7 +6,6 @@
 //
 
 import Combine
-import Alamofire
 
 final class UserRepository: UserRepositoryContract {
     private let remote: UserRemoteDataSourceContract

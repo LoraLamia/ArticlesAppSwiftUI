@@ -42,7 +42,7 @@ final class DependencyContainer {
         )
         
         // User
-        self.userRemote = UserRemoteDataSource()
+        self.userRemote = UserRemoteDataSource(client: networkClient)
         
         self.userRepository = UserRepository(
             remote: userRemote

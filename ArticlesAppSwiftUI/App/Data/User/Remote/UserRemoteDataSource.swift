@@ -6,31 +6,19 @@
 //
 
 import Combine
-import Alamofire
 
 final class UserRemoteDataSource: UserRemoteDataSourceContract {
+    private let client: NetworkClientContract
     
-    func registerUser(username: String, password: String) -> AnyPublisher<UserResponse, AFError> {
-        return AF.request(
-            Constants.API.baseURL + Constants.API.registerEndpoint,
-            method: .post,
-            parameters: ["username": username, "password": password]
-        )
-        .validate()
-        .publishDecodable(type: UserResponse.self)
-        .value()
-        .eraseToAnyPublisher()
+    init(client: NetworkClientContract) {
+        self.client = client
     }
     
-    func loginUser(username: String, password: String) -> AnyPublisher<UserResponse, AFError> {
-        return AF.request(
-            Constants.API.baseURL + Constants.API.loginEndpoint,
-            method: .post,
-            parameters: ["username": username, "password": password]
-        )
-        .validate()
-        .publishDecodable(type: UserResponse.self)
-        .value()
-        .eraseToAnyPublisher()
+    func registerUser(username: String, password: String) -> AnyPublisher<UserResponse, Error> {
+        client.request(UserEndpoint.register(username: username, password: password), responseType: UserResponse.self)
+    }
+    
+    func loginUser(username: String, password: String) -> AnyPublisher<UserResponse, Error> {
+        client.request(UserEndpoint.login(username: username, password: password), responseType: UserResponse.self)
     }
 }
