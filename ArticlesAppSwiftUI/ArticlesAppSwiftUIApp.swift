@@ -12,6 +12,7 @@ struct ArticlesAppSwiftUIApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     private let session = SessionManager()
     private let trackingPermissionManager = TrackingPermissionManager()
+    private let analyticsService = AnalyticsService()
     private var container: DependencyContainer
     
     init() {
@@ -24,6 +25,7 @@ struct ArticlesAppSwiftUIApp: App {
                 .environment(session)
                 .environment(container)
                 .environment(trackingPermissionManager)
+                .environment(analyticsService)
         }
     }
 }

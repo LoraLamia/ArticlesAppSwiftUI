@@ -10,6 +10,7 @@ import SwiftUI
 struct WelcomeScreenView: View {
     @Environment(SessionManager.self) private var session
     @Environment(DependencyContainer.self) private var container
+    @Environment(AnalyticsService.self) private var analyticsService
 
     var body: some View {
         NavigationStack {
@@ -38,7 +39,7 @@ struct WelcomeScreenView: View {
             Text(Constants.Strings.newUser)
             NavigationLink(
                 destination: RegistrationView(
-                    viewModel: RegistrationViewModel(userUseCase: container.userUseCase, session: session)
+                    viewModel: RegistrationViewModel(userUseCase: container.userUseCase, session: session, analyticsService: analyticsService)
                 )
             ) {
                 Text(Constants.Strings.signUp)

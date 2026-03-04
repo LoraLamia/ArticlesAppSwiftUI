@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RegistrationView: View {
+    @Environment(AnalyticsService.self) private var analyticsService
     @State var viewModel: RegistrationViewModel
     @FocusState private var focusedField: Field?
 
@@ -36,6 +37,7 @@ struct RegistrationView: View {
     
     private var registerButton: some View {
         Button {
+            analyticsService.log(AuthEvent.registerTap)
             viewModel.register()
         } label: {
             Group {
