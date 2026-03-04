@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    
+    @Environment(AnalyticsService.self) private var analyticsService
     @State var viewModel: FavoritesViewModel
 
     var body: some View {
@@ -23,6 +23,7 @@ struct FavoritesView: View {
                         article: article,
                         isFavorite: true,
                         onFavoriteTap: {
+                            analyticsService.log(ArticlesEvent.favoriteToggled(isNowFavorite: false))
                             viewModel.toggleFavorite(article: article)
                         }
                     )
