@@ -5,7 +5,7 @@
 //  Created by Lora Zubić on 04.03.2026..
 //
 
-import Combine
+import Foundation
 import FirebaseAnalytics
 
 @Observable
