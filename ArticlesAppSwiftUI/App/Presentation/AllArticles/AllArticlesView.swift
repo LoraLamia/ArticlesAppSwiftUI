@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AllArticlesView: View {
     @Environment(AnalyticsService.self) private var analyticsService
+    @Environment(FeatureManager.self) private var featureManager
     @State var viewModel: AllArticlesViewModel
 
     var body: some View {
@@ -45,12 +46,12 @@ struct AllArticlesView: View {
                     let isFavorite = viewModel.isFavorite(article)
                     ArticleCellView(
                         article: article,
-                        isFavorite: isFavorite,
-                        onFavoriteTap: {
+                        isFavorite: featureManager.isFavoritesEnabled ? isFavorite : nil,
+                        onFavoriteTap: featureManager.isFavoritesEnabled ? {
                             let newValue = !isFavorite
                             analyticsService.log(ArticlesEvent.favoriteToggled(isNowFavorite: newValue))
                             viewModel.toggleFavorite(article: article)
-                        }
+                        } : nil
                     )
                 }
             }

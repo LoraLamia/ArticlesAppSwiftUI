@@ -28,7 +28,7 @@ final class FeatureManager {
         remoteConfig.configSettings = settings
         
         remoteConfig.setDefaults([
-            "favorites_enabled": true as NSObject
+            Constants.RemoteConfig.favoritesEnabled: true as NSObject
         ])
     }
     
@@ -53,7 +53,7 @@ final class FeatureManager {
     }
     
     private func updateValues() {
-        isFavoritesEnabled = remoteConfig["favorites_enabled"].boolValue
+        isFavoritesEnabled = remoteConfig[Constants.RemoteConfig.favoritesEnabled].boolValue
     }
 }
 

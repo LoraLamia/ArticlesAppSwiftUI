@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ArticleCellView: View {
     let article: Article
-    let isFavorite: Bool
-    let onFavoriteTap: () -> Void
+    let isFavorite: Bool?
+    let onFavoriteTap: (() -> Void)?
     
     var body: some View {
         HStack(spacing: Constants.Spacing.normal) {
@@ -70,15 +70,17 @@ struct ArticleCellView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
     }
     
-    private var favoriteButton: some View {
-        Button {
-            onFavoriteTap()
-        } label: {
-            Image(systemName: isFavorite ? Constants.Icons.favoriteIconName : Constants.Icons.unfavoriteIconName)
-                .resizable()
-                .scaledToFit()
-                .frame(height: Constants.Height.normal)
-                .foregroundStyle(Constants.Colors.primaryColor)
+    @ViewBuilder private var favoriteButton: some View {
+        if let isFavorite, let onFavoriteTap {
+            Button {
+                onFavoriteTap()
+            } label: {
+                Image(systemName: isFavorite ? Constants.Icons.favoriteIconName : Constants.Icons.unfavoriteIconName)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: Constants.Height.normal)
+                    .foregroundStyle(Constants.Colors.primaryColor)
+            }
         }
     }
 }

@@ -13,35 +13,40 @@ struct MainView: View {
     @Environment(FeatureManager.self) private var featureManager
 
     var body: some View {
-        if featureManager.isFavoritesEnabled {
-            TabView {
+        Group {
+            if featureManager.isFavoritesEnabled {
+                TabView {
+                    AllArticlesView(
+                        viewModel: AllArticlesViewModel(
+                            articleUseCase: container.articleUseCase,
+                            session: session,
+                            isFavoritesEnabled: featureManager.isFavoritesEnabled
+                        )
+                    )
+                    .tabItem {
+                        Label(Constants.Strings.articles, systemImage: Constants.Icons.listName)
+                    }
+                    
+                    FavoritesView(
+                        viewModel: FavoritesViewModel(
+                            articleUseCase:
+                                container.articleUseCase
+                        )
+                    )
+                    .tabItem {
+                        Label(Constants.Strings.favorites, systemImage: Constants.Icons.favoriteIconName)
+                    }
+                }
+            } else {
                 AllArticlesView(
                     viewModel: AllArticlesViewModel(
                         articleUseCase: container.articleUseCase,
-                        session: session
+                        session: session,
+                        isFavoritesEnabled: featureManager.isFavoritesEnabled
                     )
                 )
-                .tabItem {
-                    Label(Constants.Strings.articles, systemImage: Constants.Icons.listName)
-                }
-                
-                FavoritesView(
-                    viewModel: FavoritesViewModel(
-                        articleUseCase:
-                            container.articleUseCase
-                    )
-                )
-                .tabItem {
-                    Label(Constants.Strings.favorites, systemImage: Constants.Icons.favoriteIconName)
-                }
             }
-        } else {
-            AllArticlesView(
-                viewModel: AllArticlesViewModel(
-                    articleUseCase: container.articleUseCase,
-                    session: session
-                )
-            )
         }
+        .id(featureManager.isFavoritesEnabled)
     }
 }

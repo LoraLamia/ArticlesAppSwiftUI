@@ -12,6 +12,7 @@ import Foundation
 class AllArticlesViewModel {
     private let articleUseCase: ArticleUseCaseAllArticles
     private let session: SessionManager
+    private let isFavoritesEnabled: Bool
     private var cancellables = Set<AnyCancellable>()
     
     var articles: [Article] = []
@@ -49,17 +50,22 @@ class AllArticlesViewModel {
         }
     }
     
-    init(articleUseCase: ArticleUseCaseAllArticles, session: SessionManager) {
+    init(articleUseCase: ArticleUseCaseAllArticles, session: SessionManager, isFavoritesEnabled: Bool) {
         self.articleUseCase = articleUseCase
         self.session = session
+        self.isFavoritesEnabled = isFavoritesEnabled
         bind()
     }
     
     func isFavorite(_ article: Article) -> Bool {
-        favoriteIDs.contains(article.id)
+        guard isFavoritesEnabled else { return false }
+
+        return favoriteIDs.contains(article.id)
     }
     
     func toggleFavorite(article: Article) {
+        guard isFavoritesEnabled else { return }
+
         articleUseCase
             .toggleFavorite(articleId: article.id)
             .receive(on: DispatchQueue.main)
@@ -107,6 +113,8 @@ class AllArticlesViewModel {
     }
     
     func getFavorites() {
+        guard isFavoritesEnabled else { return }
+
         articleUseCase
             .getFavoriteIDs()
             .receive(on: DispatchQueue.main)
