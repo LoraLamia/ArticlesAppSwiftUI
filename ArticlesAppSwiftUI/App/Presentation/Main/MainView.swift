@@ -47,6 +47,5 @@ struct MainView: View {
                 )
             }
         }
-        .id(featureManager.isFavoritesEnabled)
     }
 }
