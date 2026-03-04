@@ -17,10 +17,6 @@ struct WelcomeScreenView: View {
                 welcomeHeader
                 signUpSection
                 signInSection
-                Button("Crash") {
-                    let array = [1]
-                    print(array[3])
-                }
             }
             .padding(.horizontal, Constants.Padding.large)
             .padding(.top, Constants.Padding.extraLarge)

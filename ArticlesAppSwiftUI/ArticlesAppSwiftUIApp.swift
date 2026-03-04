@@ -11,6 +11,7 @@ import SwiftUI
 struct ArticlesAppSwiftUIApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     private let session = SessionManager()
+    private let trackingPermissionManager = TrackingPermissionManager()
     private var container: DependencyContainer
     
     init() {
@@ -22,6 +23,7 @@ struct ArticlesAppSwiftUIApp: App {
             RootView(viewModel: RootViewModel(userUseCase: container.articleUseCase, session: session))
                 .environment(session)
                 .environment(container)
+                .environment(trackingPermissionManager)
         }
     }
 }

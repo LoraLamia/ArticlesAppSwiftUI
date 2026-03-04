@@ -18,9 +18,22 @@
 		359C70C62F4DB123007E562D /* ArticlesAppSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ArticlesAppSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3535693F2F582257009176A3 /* Exceptions for "ArticlesAppSwiftUI" folder in "ArticlesAppSwiftUI" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 359C70C52F4DB123007E562D /* ArticlesAppSwiftUI */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		359C70C82F4DB123007E562D /* ArticlesAppSwiftUI */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3535693F2F582257009176A3 /* Exceptions for "ArticlesAppSwiftUI" folder in "ArticlesAppSwiftUI" target */,
+			);
 			path = ArticlesAppSwiftUI;
 			sourceTree = "<group>";
 		};
@@ -303,6 +316,8 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ArticlesAppSwiftUI/Info.plist;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We use tracking to personalize content and measure app performance.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -347,6 +362,8 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ArticlesAppSwiftUI/Info.plist;
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We use tracking to personalize content and measure app performance.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
