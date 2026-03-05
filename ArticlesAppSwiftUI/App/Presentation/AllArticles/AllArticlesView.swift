@@ -44,9 +44,7 @@ struct AllArticlesView: View {
                     ArticleCellView(
                         article: article,
                         isFavorite: viewModel.isFavorite(article),
-                        onFavoriteTap: {
-                            viewModel.toggleFavorite(article: article)
-                        }
+                        onFavoriteTap: { viewModel.onFavoriteTap(article: article) }
                     )
                 }
             }
@@ -80,7 +78,7 @@ struct AllArticlesView: View {
         HStack {
             SearchBar(text: $viewModel.searchText)
             Button {
-                viewModel.isAscending.toggle()
+                viewModel.onSortTap()
             } label: {
                 Image(systemName: viewModel.isAscending ? Constants.Icons.arrowUpName : Constants.Icons.arrowDownName)
                     .resizable()

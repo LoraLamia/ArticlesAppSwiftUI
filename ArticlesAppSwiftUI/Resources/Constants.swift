@@ -25,6 +25,10 @@ enum Constants {
         static let tokenKey = "access_token"
     }
     
+    enum RemoteConfig {
+        static let favoritesEnabled = "favorites_enabled"
+    }
+    
     enum Strings {
         static let favorites = "Favorites"
         static let articles = "Articles"

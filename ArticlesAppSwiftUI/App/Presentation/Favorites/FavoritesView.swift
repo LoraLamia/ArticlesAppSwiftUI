@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    
     @State var viewModel: FavoritesViewModel
 
     var body: some View {
@@ -22,9 +21,7 @@ struct FavoritesView: View {
                     ArticleCellView(
                         article: article,
                         isFavorite: true,
-                        onFavoriteTap: {
-                            viewModel.toggleFavorite(article: article)
-                        }
+                        onFavoriteTap: { viewModel.onFavoriteTap(article: article) }
                     )
                 }
             }

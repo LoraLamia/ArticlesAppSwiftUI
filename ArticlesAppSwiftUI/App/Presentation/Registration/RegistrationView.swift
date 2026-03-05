@@ -36,7 +36,7 @@ struct RegistrationView: View {
     
     private var registerButton: some View {
         Button {
-            viewModel.register()
+            viewModel.onRegisterTap()
         } label: {
             Group {
                 if viewModel.isLoading {

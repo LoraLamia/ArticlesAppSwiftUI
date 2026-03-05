@@ -12,6 +12,8 @@ import Foundation
 class AllArticlesViewModel {
     private let articleUseCase: ArticleUseCaseAllArticles
     private let session: SessionManager
+    private let featureManager: FeatureManagerContract
+    private let analyticsService: AnalyticsServiceContract
     private var cancellables = Set<AnyCancellable>()
     
     var articles: [Article] = []
@@ -49,17 +51,38 @@ class AllArticlesViewModel {
         }
     }
     
-    init(articleUseCase: ArticleUseCaseAllArticles, session: SessionManager) {
+    init(articleUseCase: ArticleUseCaseAllArticles, session: SessionManager, featureManager: FeatureManager, analyticsService: AnalyticsService) {
         self.articleUseCase = articleUseCase
         self.session = session
+        self.featureManager = featureManager
+        self.analyticsService = analyticsService
         bind()
     }
     
-    func isFavorite(_ article: Article) -> Bool {
-        favoriteIDs.contains(article.id)
+    func onFavoriteTap(article: Article) {
+        let isFavorite = isFavorite(article)
+        
+        guard let isFavorite, featureManager.isFavoritesEnabled else { return }
+        let newValue = !isFavorite
+        analyticsService.log(ArticlesEvent.favoriteToggled(isNowFavorite: newValue, articleId: article.id))
+        toggleFavorite(article: article)
     }
     
-    func toggleFavorite(article: Article) {
+    func onSortTap() {
+        let newValue = !isAscending
+        analyticsService.log(ArticlesEvent.sortChanged(isAscending: newValue))
+        isAscending = newValue
+    }
+    
+    func isFavorite(_ article: Article) -> Bool? {
+        guard featureManager.isFavoritesEnabled else { return nil }
+
+        return favoriteIDs.contains(article.id)
+    }
+    
+    private func toggleFavorite(article: Article) {
+        guard featureManager.isFavoritesEnabled else { return }
+
         articleUseCase
             .toggleFavorite(articleId: article.id)
             .receive(on: DispatchQueue.main)
@@ -107,6 +130,8 @@ class AllArticlesViewModel {
     }
     
     func getFavorites() {
+        guard featureManager.isFavoritesEnabled else { return }
+
         articleUseCase
             .getFavoriteIDs()
             .receive(on: DispatchQueue.main)
