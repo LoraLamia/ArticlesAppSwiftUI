@@ -35,8 +35,10 @@ final class FeatureManager: FeatureManagerContract {
     private func fetchAndActivate() {
         remoteConfig.fetchAndActivate { [weak self] _, _ in
             guard let self else { return }
-            self.updateValues()
-            self.isReady = true
+            Task { @MainActor in
+                self.updateValues()
+                self.isReady = true
+            }
         }
     }
     
@@ -52,6 +54,7 @@ final class FeatureManager: FeatureManagerContract {
         }
     }
     
+    @MainActor
     private func updateValues() {
         isFavoritesEnabled = remoteConfig[Constants.RemoteConfig.favoritesEnabled].boolValue
     }

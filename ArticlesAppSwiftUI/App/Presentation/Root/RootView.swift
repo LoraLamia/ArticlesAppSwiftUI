@@ -11,7 +11,6 @@ import Combine
 struct RootView: View {
     @Environment(SessionManager.self) private var session
     @Environment(DependencyContainer.self) private var container
-    @Environment(TrackingPermissionManager.self) private var trackingManager
     @Environment(FeatureManager.self) private var featureManager
 
     @State var viewModel: RootViewModel
@@ -26,9 +25,6 @@ struct RootView: View {
             } else {
                 WelcomeScreenView()
             }
-        }
-        .task {
-            await trackingManager.askToTrackIfNeeded()
         }
     }
 }
