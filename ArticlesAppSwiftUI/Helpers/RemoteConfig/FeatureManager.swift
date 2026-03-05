@@ -9,7 +9,7 @@ import Foundation
 import FirebaseRemoteConfig
 
 @Observable
-final class FeatureManager {
+final class FeatureManager: FeatureManagerContract {
     private(set) var isFavoritesEnabled = false
     private(set) var isReady = false
     

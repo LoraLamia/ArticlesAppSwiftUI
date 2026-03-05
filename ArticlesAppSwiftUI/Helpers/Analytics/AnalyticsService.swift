@@ -9,7 +9,7 @@ import Foundation
 import FirebaseAnalytics
 
 @Observable
-final class AnalyticsService {
+final class AnalyticsService: AnalyticsServiceContract {
     func log(_ event: AnalyticsEvent) {
         Analytics.logEvent(event.eventName, parameters: event.parameters)
     }

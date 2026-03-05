@@ -39,7 +39,11 @@ struct WelcomeScreenView: View {
             Text(Constants.Strings.newUser)
             NavigationLink(
                 destination: RegistrationView(
-                    viewModel: RegistrationViewModel(userUseCase: container.userUseCase, session: session, analyticsService: analyticsService)
+                    viewModel: RegistrationViewModel(
+                        userUseCase: container.userUseCase,
+                        session: session,
+                        analyticsService: analyticsService
+                    )
                 )
             ) {
                 Text(Constants.Strings.signUp)
@@ -54,7 +58,10 @@ struct WelcomeScreenView: View {
             Text(Constants.Strings.existingUser)
             NavigationLink(
                 destination: LoginView(
-                    viewModel: LoginViewModel(userUseCase: container.userUseCase, session: session)
+                    viewModel: LoginViewModel(
+                        userUseCase: container.userUseCase,
+                        session: session
+                    )
                 )
             ) {
                 Text(Constants.Strings.signIn)

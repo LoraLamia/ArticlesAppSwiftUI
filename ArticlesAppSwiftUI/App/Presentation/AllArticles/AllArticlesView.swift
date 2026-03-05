@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct AllArticlesView: View {
-    @Environment(AnalyticsService.self) private var analyticsService
-    @Environment(FeatureManager.self) private var featureManager
     @State var viewModel: AllArticlesViewModel
 
     var body: some View {
@@ -43,15 +41,10 @@ struct AllArticlesView: View {
         ScrollView {
             LazyVStack(spacing: 0) {
                 ForEach(viewModel.filteredArticles) { article in
-                    let isFavorite = viewModel.isFavorite(article)
                     ArticleCellView(
                         article: article,
-                        isFavorite: featureManager.isFavoritesEnabled ? isFavorite : nil,
-                        onFavoriteTap: featureManager.isFavoritesEnabled ? {
-                            let newValue = !isFavorite
-                            analyticsService.log(ArticlesEvent.favoriteToggled(isNowFavorite: newValue))
-                            viewModel.toggleFavorite(article: article)
-                        } : nil
+                        isFavorite: viewModel.isFavorite(article),
+                        onFavoriteTap: { viewModel.onFavoriteTap(article: article) }
                     )
                 }
             }
@@ -85,9 +78,7 @@ struct AllArticlesView: View {
         HStack {
             SearchBar(text: $viewModel.searchText)
             Button {
-                let newValue = !viewModel.isAscending
-                analyticsService.log(ArticlesEvent.sortChanged(isAscending: newValue))
-                viewModel.isAscending = newValue
+                viewModel.onSortTap()
             } label: {
                 Image(systemName: viewModel.isAscending ? Constants.Icons.arrowUpName : Constants.Icons.arrowDownName)
                     .resizable()

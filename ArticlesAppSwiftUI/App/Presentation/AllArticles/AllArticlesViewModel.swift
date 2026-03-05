@@ -12,7 +12,8 @@ import Foundation
 class AllArticlesViewModel {
     private let articleUseCase: ArticleUseCaseAllArticles
     private let session: SessionManager
-    private let isFavoritesEnabled: Bool
+    private let featureManager: FeatureManagerContract
+    private let analyticsService: AnalyticsServiceContract
     private var cancellables = Set<AnyCancellable>()
     
     var articles: [Article] = []
@@ -50,21 +51,37 @@ class AllArticlesViewModel {
         }
     }
     
-    init(articleUseCase: ArticleUseCaseAllArticles, session: SessionManager, isFavoritesEnabled: Bool) {
+    init(articleUseCase: ArticleUseCaseAllArticles, session: SessionManager, featureManager: FeatureManager, analyticsService: AnalyticsService) {
         self.articleUseCase = articleUseCase
         self.session = session
-        self.isFavoritesEnabled = isFavoritesEnabled
+        self.featureManager = featureManager
+        self.analyticsService = analyticsService
         bind()
     }
     
-    func isFavorite(_ article: Article) -> Bool {
-        guard isFavoritesEnabled else { return false }
+    func onFavoriteTap(article: Article) {
+        let isFavorite = isFavorite(article)
+        
+        guard let isFavorite, featureManager.isFavoritesEnabled else { return }
+        let newValue = !isFavorite
+        analyticsService.log(ArticlesEvent.favoriteToggled(isNowFavorite: newValue, articleId: article.id))
+        toggleFavorite(article: article)
+    }
+    
+    func onSortTap() {
+        let newValue = !isAscending
+        analyticsService.log(ArticlesEvent.sortChanged(isAscending: newValue))
+        isAscending = newValue
+    }
+    
+    func isFavorite(_ article: Article) -> Bool? {
+        guard featureManager.isFavoritesEnabled else { return nil }
 
         return favoriteIDs.contains(article.id)
     }
     
-    func toggleFavorite(article: Article) {
-        guard isFavoritesEnabled else { return }
+    private func toggleFavorite(article: Article) {
+        guard featureManager.isFavoritesEnabled else { return }
 
         articleUseCase
             .toggleFavorite(articleId: article.id)
@@ -113,7 +130,7 @@ class AllArticlesViewModel {
     }
     
     func getFavorites() {
-        guard isFavoritesEnabled else { return }
+        guard featureManager.isFavoritesEnabled else { return }
 
         articleUseCase
             .getFavoriteIDs()

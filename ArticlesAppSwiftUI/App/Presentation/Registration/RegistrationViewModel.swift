@@ -12,7 +12,7 @@ import Combine
 class RegistrationViewModel {
     private let userUseCase: UserUseCaseRegistration
     private let session: SessionManager
-    private var analyticsService: AnalyticsService
+    private var analyticsService: AnalyticsServiceContract
     
     private var cancellables = Set<AnyCancellable>()
     var username = ""
@@ -31,7 +31,12 @@ class RegistrationViewModel {
         self.analyticsService = analyticsService
     }
     
-    func register() {
+    func onRegisterTap() {
+        analyticsService.log(AuthEvent.registerTap)
+        register()
+    }
+    
+    private func register() {
         isLoading = true
         errorMessage = nil
         

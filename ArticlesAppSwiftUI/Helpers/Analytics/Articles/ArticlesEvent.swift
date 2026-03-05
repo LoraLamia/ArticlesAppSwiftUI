@@ -6,7 +6,7 @@
 //
 
 enum ArticlesEvent: AnalyticsEvent {
-    case favoriteToggled(isNowFavorite: Bool)
+    case favoriteToggled(isNowFavorite: Bool, articleId: String)
     case sortChanged(isAscending: Bool)
     
     var eventName: String {
@@ -20,8 +20,11 @@ enum ArticlesEvent: AnalyticsEvent {
     
     var parameters: [String: Any]? {
         switch self {
-        case .favoriteToggled(let isNowFavorite):
-            return ["is_now_favorite": isNowFavorite]
+        case .favoriteToggled(let isNowFavorite, let articleId):
+            return [
+                "is_now_favorite": isNowFavorite,
+                "article_id": articleId
+            ]
             
         case .sortChanged(let isAscending):
             return ["is_ascending": isAscending]

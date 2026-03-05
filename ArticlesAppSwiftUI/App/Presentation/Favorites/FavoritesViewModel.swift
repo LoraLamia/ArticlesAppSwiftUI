@@ -11,16 +11,23 @@ import SwiftUI
 @Observable
 class FavoritesViewModel {
     private let articleUseCase: ArticleUseCaseFavorites
+    private let analyticsService: AnalyticsServiceContract
     private var cancellables = Set<AnyCancellable>()
     
     var articles: [Article] = []
     
-    init(articleUseCase: ArticleUseCaseFavorites) {
+    init(articleUseCase: ArticleUseCaseFavorites, analyticsService: AnalyticsService) {
         self.articleUseCase = articleUseCase
+        self.analyticsService = analyticsService
         bind()
     }
     
-    func toggleFavorite(article: Article) {
+    func onFavoriteTap(article: Article) {
+        analyticsService.log(ArticlesEvent.favoriteToggled(isNowFavorite: false, articleId: article.id))
+        toggleFavorite(article: article)
+    }
+    
+    private func toggleFavorite(article: Article) {
         articleUseCase
             .toggleFavorite(articleId: article.id)
             .sink { _ in }
